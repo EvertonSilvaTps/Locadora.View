@@ -1,6 +1,4 @@
-﻿using System.Security.Cryptography;
-
-namespace Locadora.Models
+﻿namespace Locadora.Models
 {
     public class Cliente
     {

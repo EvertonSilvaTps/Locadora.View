@@ -1,10 +1,6 @@
 ﻿using Locadora.Models;
 using Microsoft.Data.SqlClient;
-using Microsoft.Identity.Client;
-using System.Diagnostics;
-using System.Linq.Expressions;
 using Utils.Databases;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Locadora.Controller
 {

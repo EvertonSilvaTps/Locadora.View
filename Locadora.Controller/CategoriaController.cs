@@ -1,8 +1,5 @@
 ﻿using Locadora.Models;
 using Microsoft.Data.SqlClient;
-using Microsoft.IdentityModel.Tokens;
-using System;
-using System.Collections.Generic;
 using System.Data;
 using Utils.Databases;
 
@@ -72,7 +69,6 @@ namespace Locadora.Controller
                                                     reader["Descricao"] != DBNull.Value ?
                                                     reader["Descricao"].ToString() : null);
 
-                    //categoria.setCategoriaId(Convert.ToInt32(reader["CategoriaId"]));
                     listaCategorias.Add(categoria);
                 }
                 return listaCategorias;
@@ -93,49 +89,7 @@ namespace Locadora.Controller
         }
 
 
-        //public string BuscaCategoriaPorId(int id)
-        //{
-        //    SqlConnection connection = new SqlConnection(ConnectionDB.GetConnectionString());
-
-        //    connection.Open();
-        //    try
-        //    {
-        //        SqlCommand command = new SqlCommand(Veiculo.SELECTCATEGORIAPORNOME, connection);
-
-        //        command.Parameters.AddWithValue("@Id", id);
-
-        //        string nomecategoria = String.Empty;
-
-        //        SqlDataReader reader = command.ExecuteReader();
-
-        //        if (reader.Read())
-        //        {
-        //            var categoria = new Categoria(reader["Nome"].ToString()!,
-        //                                            reader.GetDecimal(3),
-        //                                            reader["Descricao"] != DBNull.Value ?
-        //                                            reader["Descricao"].ToString() : null);
-
-        //            categoria.setCategoriaId(Convert.ToInt32(reader["CategoriaId"]));
-
-        //            return categoria;
-        //        }
-        //        return null;
-        //    }
-        //    catch (SqlException ex)
-        //    {
-        //        throw new Exception("Erro ao buscar categoria por nome: " + ex.Message);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        throw new Exception("Erro inesperado ao buscar categoria por nome: " + ex.Message);
-        //    }
-        //    finally
-        //    {
-        //        connection.Close();
-        //    }
-        //}
-
-        public string BuscarNomeCategoriaPorId(int id)     // Novo
+        public string BuscarNomeCategoriaPorId(int id)
         {
             var connection = new SqlConnection(ConnectionDB.GetConnectionString());
             connection.Open();

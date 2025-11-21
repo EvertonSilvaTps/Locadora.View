@@ -1,5 +1,4 @@
 ﻿using Locadora.Controller;
-using Locadora.Models.Enums;
 
 //INPUT Categoria
 //Categoria categoria = new Categoria("Grupo H", 139.90m);
@@ -115,14 +114,14 @@ var veiculoController = new VeiculoController();
 
 
 #region SELECT BY PLACA
-try
-{
-    Console.WriteLine(veiculoController.BuscarVeiculoPlaca("MNO7890"));
-}
-catch (Exception ex)
-{
-    Console.WriteLine(ex.Message);
-}
+//try
+//{
+//    Console.WriteLine(veiculoController.BuscarVeiculoPlaca("MNO7890"));
+//}
+//catch (Exception ex)
+//{
+//    Console.WriteLine(ex.Message);
+//}
 #endregion
 
 

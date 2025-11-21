@@ -1,8 +1,4 @@
-﻿using System;
-using static System.Net.Mime.MediaTypeNames;
-using static System.Runtime.InteropServices.JavaScript.JSType;
-
-namespace Utils.Databases
+﻿namespace Utils.Databases
 {
     public class ConnectionDB
     {
