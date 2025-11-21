@@ -8,28 +8,28 @@ namespace Locadora.Models
 {
     public class Veiculo
     {
-        public readonly static string INSERTCATEGORIA = "INSERT INTO tblCategorias VALUES(@Nome, @Descricao, @Diaria);" +
-                                                        "SELECT SCOPE_IDENTITY()";
+        public readonly static string INSERTVEICULO = @"INSERT INTO tblVeiculos (CategoriaID, Placa, Marca, Modelo, Ano, StatusVeiculo)
+                                                        VALUES (@CategoriaID, @Placa, @Marca, @Modelo, @Ano, @StatusVeiculo)";
 
-        public readonly static string SELECTALLCATEGORIAS = @"SELECT Nome, Descricao, Diaria
-                                                            FROM tblCategorias";
+        public readonly static string SELECTALLVEICULOS = @"SELECT CategoriaID, 
+                                                    Placa, Marca, Modelo, Ano, StatusVeiculo
+                                                    FROM tblVeiculos";
 
-        public readonly static string SELECTCATEGORIAPORNOME = @"SELECT CategoriaId, Nome, Descricao, Diaria 
-                                                            FROM tblCategorias c
-                                                            WHERE c.Nome = @Nome";
+        public readonly static string SELECTVEICULOBYPLACA = @"SELECT VeiculoID, CategoriaID, Placa, Marca, Modelo, Ano, StatusVeiculo 
+                                                                FROM tblVeiculos
+                                                                WHERE Placa = @Placa";
 
-        public readonly static string UPDATEDESCRICAOCATEGORIA = "UPDATE tblCategorias SET Descricao = @Descricao " +
-                                                    "WHERE CategoriaId = @CategoriaId";
+        public readonly static string UPDATESTATUSVEICULO = @"UPDATE tblVeiculos 
+                                                    SET StatusVeiculo = @StatusVeiculo
+                                                    WHERE VeiculoID = @VeiculoID";
 
-        public readonly static string UPDATEDIARIACATEGORIA = "UPDATE tblCategorias SET Diaria = @Diaria " +
-                                            "WHERE CategoriaId = @CategoriaId";
-
-        public readonly static string DELETECATEGORIA = "DELETE FROM tblCategorias " +
-                                                "WHERE CategoriaId = @CategoriaId";
+        public readonly static string DELETEVEICULO = @"DELETE FROM tblVeiculos
+                                                        WHERE VeiculoID = @IdVeiculo";
 
 
         public int VeiculoID { get; private set; }
         public int CategoriaID { get; private set; }
+        public string? NomeCategoria { get; private set; }
         public string Placa { get; private set; }
         public string Marca{ get; private set; }
         public string Modelo { get; private set; }
@@ -48,9 +48,14 @@ namespace Locadora.Models
             StatusVeiculo = statusVeiculo;
         }
 
-        public void setVeiculo(int veiculoID)
+        public void setVeiculoID(int veiculoID)
         {
             VeiculoID = veiculoID;
+        }
+
+        public void setNomeCategoria(string nomeCategoria)
+        {
+            NomeCategoria = nomeCategoria;
         }
 
         public void setStatusVeiculo(string statusVeiculo)
@@ -62,7 +67,7 @@ namespace Locadora.Models
         public override string? ToString()
         {
             return $"Placa: {Placa}\nMarca: {Marca}\nModelo: {Modelo}\n" +
-                $"Ano: {Ano}\nStatus:  {StatusVeiculo}\n";
+                $"Ano: {Ano}\nStatus: {StatusVeiculo}\nCategoria: {NomeCategoria}\n";
         }
     }
 }

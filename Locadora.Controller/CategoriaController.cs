@@ -4,9 +4,6 @@ using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Utils.Databases;
 
 namespace Locadora.Controller
@@ -23,7 +20,7 @@ namespace Locadora.Controller
             {
                 try
                 {
-                    SqlCommand command = new SqlCommand(Veiculo.INSERTCATEGORIA, connection, transaction);
+                    SqlCommand command = new SqlCommand(Categoria.INSERTCATEGORIA, connection, transaction);
 
                     command.Parameters.AddWithValue("@Nome", categoria.Nome);
                     command.Parameters.AddWithValue("@Descricao", categoria.Descricao ?? (object)DBNull.Value);
@@ -32,9 +29,7 @@ namespace Locadora.Controller
                     p.Scale = 2;
                     p.Value = categoria.Diaria;
 
-                    int categoriaId = Convert.ToInt32(command.ExecuteScalar());
-
-                    categoria.setCategoriaId(categoriaId);
+                    command.ExecuteNonQuery();
 
                     transaction.Commit();
                 }
@@ -64,7 +59,7 @@ namespace Locadora.Controller
             {
                 connection.Open();
 
-                SqlCommand command = new SqlCommand(Veiculo.SELECTALLCATEGORIAS, connection);
+                SqlCommand command = new SqlCommand(Categoria.SELECTALLCATEGORIAS, connection);
 
                 SqlDataReader reader = command.ExecuteReader();
 
@@ -73,9 +68,9 @@ namespace Locadora.Controller
                 while (reader.Read())
                 {
                     var categoria = new Categoria(reader["Nome"].ToString()!,
+                                                    reader.GetDecimal(2),
                                                     reader["Descricao"] != DBNull.Value ?
-                                                    reader["Descricao"].ToString() : null,
-                                                    reader.GetDecimal(2));
+                                                    reader["Descricao"].ToString() : null);
 
                     //categoria.setCategoriaId(Convert.ToInt32(reader["CategoriaId"]));
                     listaCategorias.Add(categoria);
@@ -98,6 +93,82 @@ namespace Locadora.Controller
         }
 
 
+        //public string BuscaCategoriaPorId(int id)
+        //{
+        //    SqlConnection connection = new SqlConnection(ConnectionDB.GetConnectionString());
+
+        //    connection.Open();
+        //    try
+        //    {
+        //        SqlCommand command = new SqlCommand(Veiculo.SELECTCATEGORIAPORNOME, connection);
+
+        //        command.Parameters.AddWithValue("@Id", id);
+
+        //        string nomecategoria = String.Empty;
+
+        //        SqlDataReader reader = command.ExecuteReader();
+
+        //        if (reader.Read())
+        //        {
+        //            var categoria = new Categoria(reader["Nome"].ToString()!,
+        //                                            reader.GetDecimal(3),
+        //                                            reader["Descricao"] != DBNull.Value ?
+        //                                            reader["Descricao"].ToString() : null);
+
+        //            categoria.setCategoriaId(Convert.ToInt32(reader["CategoriaId"]));
+
+        //            return categoria;
+        //        }
+        //        return null;
+        //    }
+        //    catch (SqlException ex)
+        //    {
+        //        throw new Exception("Erro ao buscar categoria por nome: " + ex.Message);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw new Exception("Erro inesperado ao buscar categoria por nome: " + ex.Message);
+        //    }
+        //    finally
+        //    {
+        //        connection.Close();
+        //    }
+        //}
+
+        public string BuscarNomeCategoriaPorId(int id)     // Novo
+        {
+            var connection = new SqlConnection(ConnectionDB.GetConnectionString());
+            connection.Open();
+
+            try
+            {
+                SqlCommand command = new SqlCommand(Categoria.SELECTNOMECATEGORIAPORID, connection);
+                command.Parameters.AddWithValue("@Id", id);
+
+                string nomecategoria = String.Empty;
+
+                SqlDataReader reader = command.ExecuteReader();
+                if (reader.Read())
+                {
+                    nomecategoria = reader["Nome"].ToString() ?? string.Empty;
+                }
+                return nomecategoria;
+            }
+            catch (SqlException ex)
+            {
+                throw new Exception("Erro ao buscar categoria." + ex.Message);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Erro inesperado ao buscar categoria." + ex.Message);
+            }
+            finally
+            {
+                connection.Close();
+            }
+        }
+
+
         public Categoria BuscaCategoriaPorNome(string nome)
         {
             SqlConnection connection = new SqlConnection(ConnectionDB.GetConnectionString());
@@ -105,7 +176,7 @@ namespace Locadora.Controller
             connection.Open();
             try
             {
-                SqlCommand command = new SqlCommand(Veiculo.SELECTCATEGORIAPORNOME, connection);
+                SqlCommand command = new SqlCommand(Categoria.SELECTCATEGORIAPORNOME, connection);
 
                 command.Parameters.AddWithValue("@Nome", nome);
 
@@ -114,9 +185,9 @@ namespace Locadora.Controller
                 if (reader.Read())
                 {
                     var categoria = new Categoria(reader["Nome"].ToString()!,
+                                                    reader.GetDecimal(3),
                                                     reader["Descricao"] != DBNull.Value ?
-                                                    reader["Descricao"].ToString() : null,
-                                                    reader.GetDecimal(3));
+                                                    reader["Descricao"].ToString() : null);
                     
                     categoria.setCategoriaId(Convert.ToInt32(reader["CategoriaId"]));
 
@@ -156,7 +227,7 @@ namespace Locadora.Controller
             {
                 try
                 {
-                    SqlCommand command = new SqlCommand(Veiculo.UPDATEDESCRICAOCATEGORIA, connection, transaction);
+                    SqlCommand command = new SqlCommand(Categoria.UPDATEDESCRICAOCATEGORIA, connection, transaction);
                     command.Parameters.AddWithValue("@Descricao", categoriaEncontrado.Descricao);
                     command.Parameters.AddWithValue("@CategoriaId", categoriaEncontrado.CategoriaId);
 
@@ -199,7 +270,7 @@ namespace Locadora.Controller
             {
                 try
                 {
-                    SqlCommand command = new SqlCommand(Veiculo.UPDATEDIARIACATEGORIA, connection, transaction);
+                    SqlCommand command = new SqlCommand(Categoria.UPDATEDIARIACATEGORIA, connection, transaction);
                     var p = command.Parameters.Add("@Diaria", SqlDbType.Decimal);
                     p.Precision = 10;
                     p.Scale = 2;
@@ -243,7 +314,7 @@ namespace Locadora.Controller
             {
                 try
                 {
-                    SqlCommand command = new SqlCommand(Veiculo.DELETECATEGORIA, connection, transaction);
+                    SqlCommand command = new SqlCommand(Categoria.DELETECATEGORIA, connection, transaction);
 
                     command.Parameters.AddWithValue("@CategoriaId", categoriaEncontrado.CategoriaId);
 
