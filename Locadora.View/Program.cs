@@ -2,37 +2,34 @@
 using Locadora.Models;
 
 
-//INPUT Cliente
-Cliente cliente = new Cliente("ESilva&Silva", "sul@uol.com.br");
-
-//INPUT Documento
-Documento documento = new Documento("CPF", "516541521", new DateOnly(2025, 1, 1), new DateOnly(2035, 1, 1));
+//INPUT Categoria
+Categoria categoria = new Categoria("Grupo H", 139.90m);
 
 
-var clienteController = new ClienteController();
+var categoriaController = new CategoriaController();
 
 
-//#region Adicionar Cliente & Documento
+#region Adicionar Categoria
 //try
 //{
-//clienteController.AdicionarCliente(cliente, documento);
+//    categoriaController.AdicionarCategoria(categoria);
 //}
 //catch (Exception ex)
 //{
-//Console.WriteLine(ex.Message);
+//    Console.WriteLine(ex.Message);
 //}
-//#endregion
+#endregion
 
 
 
-#region SELECT ALL Clientes & Documentos
+#region SELECT ALL Categorias
 try
 {
-    var listadeClientes = clienteController.ListarTodosClientes();
+    var listadeCategorias = categoriaController.ListarTodasCategorias();
 
-    foreach (var clientedaLista in listadeClientes)
+    foreach (var categoriadaLista in listadeCategorias)
     {
-        Console.WriteLine(clientedaLista);
+        Console.WriteLine(categoriadaLista);
     }
 }
 catch (Exception ex)
@@ -42,40 +39,40 @@ catch (Exception ex)
 #endregion
 
 
-//#region UPDATE Telefone
+#region UPDATE Descrição
 //try
 //{
-//    clienteController.AtualizarTelefoneCliente("[telefone]", "[email]");
-//    Console.WriteLine(clienteController.BuscaClientePorEmail("[email]"));
+//    categoriaController.AtualizarDescricaoCategoria("[descrição]", "Grupo C");
+//    Console.WriteLine(categoriaController.BuscaCategoriaPorNome("Grupo C"));
 //}
 //catch (Exception ex)
 //{
 //    Console.WriteLine(ex.Message);
 //}
-//#endregion
-
-
-#region DELETE Cliente
-try
-{
-    clienteController.DeletarCliente("sul@uol.com.br");
-    Console.WriteLine("Cliente deletado com sucesso!");
-}
-catch (Exception ex)
-{
-    Console.WriteLine(ex.Message);
-}
 #endregion
 
 
-//#region UPDATE Documento do Cliente
+#region UPDATE Diária
 //try
 //{
-//    clienteController.AtualizarDocumentoCliente("alo@uol.com.br", documento);
-//    Console.WriteLine(clienteController.BuscaClientePorEmail("alo@uol.com.br"));
+//    categoriaController.AtualizarDiariaCategoria(109.90m, "Grupo C");
+//    Console.WriteLine(categoriaController.BuscaCategoriaPorNome("Grupo C"));
 //}
 //catch (Exception ex)
 //{
 //    Console.WriteLine(ex.Message);
 //}
-//#endregion
+#endregion
+
+
+#region DELETE Categoria
+//try
+//{
+//    categoriaController.DeletarCategoria("Grupo A");
+//    Console.WriteLine("Categoria deletado com sucesso!");
+//}
+//catch (Exception ex)
+//{
+//    Console.WriteLine(ex.Message);
+//}
+#endregion

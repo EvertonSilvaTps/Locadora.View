@@ -8,6 +8,26 @@ namespace Locadora.Models
 {
     public class Veiculo
     {
+        public readonly static string INSERTCATEGORIA = "INSERT INTO tblCategorias VALUES(@Nome, @Descricao, @Diaria);" +
+                                                        "SELECT SCOPE_IDENTITY()";
+
+        public readonly static string SELECTALLCATEGORIAS = @"SELECT Nome, Descricao, Diaria
+                                                            FROM tblCategorias";
+
+        public readonly static string SELECTCATEGORIAPORNOME = @"SELECT CategoriaId, Nome, Descricao, Diaria 
+                                                            FROM tblCategorias c
+                                                            WHERE c.Nome = @Nome";
+
+        public readonly static string UPDATEDESCRICAOCATEGORIA = "UPDATE tblCategorias SET Descricao = @Descricao " +
+                                                    "WHERE CategoriaId = @CategoriaId";
+
+        public readonly static string UPDATEDIARIACATEGORIA = "UPDATE tblCategorias SET Diaria = @Diaria " +
+                                            "WHERE CategoriaId = @CategoriaId";
+
+        public readonly static string DELETECATEGORIA = "DELETE FROM tblCategorias " +
+                                                "WHERE CategoriaId = @CategoriaId";
+
+
         public int VeiculoID { get; private set; }
         public int CategoriaID { get; private set; }
         public string Placa { get; private set; }
