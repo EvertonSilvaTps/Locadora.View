@@ -70,19 +70,23 @@ namespace Locadora.Controller.Crud
             string? email = Validar.ValidarInputString("Informe o email para busca do cliente: ");
             if (email == null) return;
 
-            Console.WriteLine("\n=-=-=-=   >   Cliente   <   =-=-=-=\n");
-
             try
             {
-                Controller.BuscarClienteEmail(email);
+                var vlr = Controller.BuscarClienteEmail(email);
+                if (vlr is null)
+                {
+                    Console.WriteLine("\nNão existe cliente com esse email cadastrado!");
+                    return;
+                }
+
+                Console.WriteLine("\n=-=-=   >  Cliente  <   =-=-=\n");
+                Console.WriteLine(vlr + "\n");
 
                 string? phone = Validar.ValidarInputString("Informe o telefone atualizado: ");
 
                 Controller.AtualizarTelefoneCliente(phone, email);
 
-                Console.WriteLine("   >>>   Telefone atualizado com sucesso!");
-
-                Console.WriteLine(Controller.BuscarClienteEmail(email));
+                Console.WriteLine("\n >>>  Telefone atualizado com sucesso!");
             }
             catch (Exception ex)
             {
@@ -95,14 +99,21 @@ namespace Locadora.Controller.Crud
         {
             string? email = Validar.ValidarInputString("Informe o email para busca do cliente: ");
             if (email == null) return;
-
-            Console.WriteLine("\n=-=-=-=   >   Cliente   <   =-=-=-=\n");
+            
 
             try
             {
-                Controller.BuscarClienteEmail(email);
+                var vlr = Controller.BuscarClienteEmail(email);
+                if (vlr is null)
+                {
+                    Console.WriteLine("\nNão existe cliente com esse email cadastrado!");
+                    return;
+                }
 
-                Console.WriteLine("\n  >>>  Informe os Campos atualizado do Documento do Cliente\n");
+                Console.WriteLine("\n=-=-=   >  Cliente  <   =-=-=\n");
+                Console.WriteLine(vlr + "\n");
+
+                Console.WriteLine(" > Preencha os campos atualizados do documento do cliente\n");
 
                 string? docType = Validar.ValidarInputString("Tipo de documento | RG | CPF | CNH | : ");
                 if (docType == null) return;
@@ -118,9 +129,9 @@ namespace Locadora.Controller.Crud
 
                 Controller.AtualizarDocumentoCliente(email, document);
 
-                Console.WriteLine("   >>>   Documento atualizado com sucesso!");
-
-                Console.WriteLine(Controller.BuscarClienteEmail(email));
+                Console.WriteLine("\n >>>  Documento atualizado com sucesso!\n");
+                vlr = Controller.BuscarClienteEmail(email);
+                Console.WriteLine(vlr.Documento.ToString());
             }
             catch (Exception ex)
             {
@@ -136,12 +147,19 @@ namespace Locadora.Controller.Crud
             string? email = Validar.ValidarInputString("Informe o email para busca do cliente: ");
             if (email == null) return;
 
-            Console.WriteLine("\n=-=-=-=   >   Cliente   <   =-=-=-=\n");
 
 
             try
             {
-                Controller.BuscarClienteEmail(email);
+                var vlr = Controller.BuscarClienteEmail(email);
+                if (vlr is null)
+                {
+                    Console.WriteLine("\nNão existe cliente com esse email cadastrado!");
+                    return;
+                }
+                
+                Console.WriteLine("\n=-=-=-=   >   Cliente   <   =-=-=-=\n");
+                Console.WriteLine(vlr + "\n");
 
                 Console.Write("Tem certeza que deseja deletar o cliente? [S/N]: ");
                 string res = Console.ReadLine()!.ToUpper();
@@ -152,10 +170,14 @@ namespace Locadora.Controller.Crud
                     res = Console.ReadLine()!.ToUpper();
                 }
 
-                if (res == "N") return;
+                if (res == "N")
+                {
+                    Console.WriteLine("\nEncerrando a operação de deletar...");
+                    return;
+                }
 
                 Controller.DeletarCliente(email);
-                Console.WriteLine("   >>>   Cliente deletado com sucesso!");
+                Console.WriteLine("\n >>>  Cliente deletado com sucesso!");
             }
             catch (Exception ex)
             {

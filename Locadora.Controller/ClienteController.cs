@@ -107,7 +107,7 @@ namespace Locadora.Controller
         }
 
 
-        public Cliente BuscarClienteEmail(string email)
+        public Cliente? BuscarClienteEmail(string email)
         {
             SqlConnection connection = new SqlConnection(ConnectionDB.GetConnectionString());
 
@@ -119,8 +119,6 @@ namespace Locadora.Controller
                 command.Parameters.AddWithValue("@Email", email);
 
                 SqlDataReader reader = command.ExecuteReader();
-
-                if (!reader.Read()) return null;
 
                 if (reader.Read())
                 {
