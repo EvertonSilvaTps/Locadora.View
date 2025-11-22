@@ -32,8 +32,9 @@
 
         public override string? ToString()
         {
-            return $"Tipo: {TipoDocumento}\nNumero: {Numero}\n" +
-                $"Data de Emissão: {DataEmissao}\nData de Validade: {DataValidade}\n";
+            return $"Tipo de Documento: {TipoDocumento}\nNumero Docto: {Numero}\n" +
+                $"Data de Emissão: {DataEmissao}\nData de Validade: {DataValidade}\n" +
+                $"---------------------------------------";
         }
     }
 }

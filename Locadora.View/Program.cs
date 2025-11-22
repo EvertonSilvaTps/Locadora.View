@@ -1,4 +1,5 @@
 ﻿using Locadora.Controller;
+using Locadora.Controller.Crud;
 
 
 //Funcionario func = new Funcionario("Bruce Wanny", "285646688", "batman@uol.com");
@@ -138,3 +139,6 @@ var locacaoController = new LocacaoController();
 //    Console.WriteLine(ex.Message);
 //}
 #endregion
+
+var cliente = new ClienteMenu();
+cliente.MenuCliente();

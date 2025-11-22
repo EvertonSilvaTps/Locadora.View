@@ -92,6 +92,7 @@ namespace Locadora.Controller
                 return listaClientes;
             }
             catch (SqlException ex)
+
             {
                 throw new Exception("Erro ao listar clientes: " + ex.Message);
             }
@@ -118,6 +119,8 @@ namespace Locadora.Controller
                 command.Parameters.AddWithValue("@Email", email);
 
                 SqlDataReader reader = command.ExecuteReader();
+
+                if (!reader.Read()) return null;
 
                 if (reader.Read())
                 {

@@ -61,7 +61,7 @@
         public override string? ToString()
         {
             return $"Nome: {Nome}\nEmail: {Email}\nTelefone: {(Telefone == string.Empty ? "Sem telefone" : Telefone)}\n" +
-                $"\n{Documento}";
+                $"{Documento}";
         }
     }
 }
