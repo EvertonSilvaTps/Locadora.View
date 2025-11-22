@@ -1,10 +1,11 @@
-﻿using Locadora.Models;
+﻿using Locadora.Controller.Interfaces;
+using Locadora.Models;
 using Microsoft.Data.SqlClient;
 using Utils.Databases;
 
 namespace Locadora.Controller
 {
-    public class ClienteController
+    public class ClienteController : IClienteController
     {
 
         public void AdicionarCliente(Cliente cliente, Documento documento)
@@ -105,7 +106,7 @@ namespace Locadora.Controller
         }
 
 
-        public Cliente BuscaClientePorEmail(string email)
+        public Cliente BuscarClienteEmail(string email)
         {
             SqlConnection connection = new SqlConnection(ConnectionDB.GetConnectionString());
 
@@ -160,7 +161,7 @@ namespace Locadora.Controller
             // atualizar a propriedade telefone
             // salvar no banco
 
-            var clienteEncontrado = this.BuscaClientePorEmail(email);
+            var clienteEncontrado = this.BuscarClienteEmail(email);
 
             if (clienteEncontrado is null)
                 throw new Exception("Não existe cliente com esse email cadastrado!");
@@ -199,9 +200,10 @@ namespace Locadora.Controller
             }
         }
 
+
         public void AtualizarDocumentoCliente(string email, Documento documento)
         {
-            var clienteEncontrado = BuscaClientePorEmail(email) ??    // ?? Ternario =  se der tudo bem retorna o cliente, se não cai no throw
+            var clienteEncontrado = BuscarClienteEmail(email) ??    // ?? Ternario =  se der tudo bem retorna o cliente, se não cai no throw
                 throw new Exception("Não existe cliente com esse email cadastrado!");
 
             SqlConnection connection = new SqlConnection(ConnectionDB.GetConnectionString());
@@ -231,9 +233,10 @@ namespace Locadora.Controller
             }
         }
 
+
         public void DeletarCliente(string email)
         {
-            var clienteEncontrado = BuscaClientePorEmail(email);
+            var clienteEncontrado = BuscarClienteEmail(email);
 
             if (clienteEncontrado is null)
                 throw new Exception("Não existe cliente com esse email cadastrado!");

@@ -1,11 +1,12 @@
-﻿using Locadora.Models;
+﻿using Locadora.Controller.Interfaces;
+using Locadora.Models;
 using Microsoft.Data.SqlClient;
 using System.Data;
 using Utils.Databases;
 
 namespace Locadora.Controller
 {
-    public class CategoriaController
+    public class CategoriaController : ICategoriaController
     {
         public void AdicionarCategoria(Categoria categoria)
         {
@@ -123,7 +124,7 @@ namespace Locadora.Controller
         }
 
 
-        public Categoria BuscaCategoriaPorNome(string nome)
+        public Categoria BuscarCategoriaNome(string nome)
         {
             SqlConnection connection = new SqlConnection(ConnectionDB.GetConnectionString());
 
@@ -166,7 +167,7 @@ namespace Locadora.Controller
 
         public void AtualizarDescricaoCategoria(string descricao, string nome)
         {
-            var categoriaEncontrado = this.BuscaCategoriaPorNome(nome);
+            var categoriaEncontrado = this.BuscarCategoriaNome(nome);
 
             if (categoriaEncontrado is null)
                 throw new Exception("Não existe categoria com esse nome cadastrado!");
@@ -209,7 +210,7 @@ namespace Locadora.Controller
 
         public void AtualizarDiariaCategoria(decimal diaria, string nome)
         {
-            var categoriaEncontrado = this.BuscaCategoriaPorNome(nome);
+            var categoriaEncontrado = this.BuscarCategoriaNome(nome);
 
             if (categoriaEncontrado is null)
                 throw new Exception("Não existe categoria com esse nome cadastrado!");
@@ -255,7 +256,7 @@ namespace Locadora.Controller
 
         public void DeletarCategoria(string nome)
         {
-            var categoriaEncontrado = this.BuscaCategoriaPorNome(nome);
+            var categoriaEncontrado = this.BuscarCategoriaNome(nome);
 
             if (categoriaEncontrado is null)
                 throw new Exception("Não existe categoria com esse nome cadastrado!");

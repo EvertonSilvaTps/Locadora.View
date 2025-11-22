@@ -1,9 +1,10 @@
-﻿using Locadora.Models;
+﻿using Locadora.Controller.Interfaces;
+using Locadora.Models;
 using Microsoft.Data.SqlClient;
 
 namespace Locadora.Controller
 {
-    public class DocumentoController
+    public class DocumentoController : IDocumentoController
     {
         public void AdicionarDocumento(Documento documento, SqlConnection connection, SqlTransaction transaction)
         {

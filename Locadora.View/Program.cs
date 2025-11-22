@@ -1,16 +1,16 @@
 ﻿using Locadora.Controller;
 
-//INPUT Categoria
-//Categoria categoria = new Categoria("Grupo H", 139.90m);
+
+//Funcionario func = new Funcionario("Bruce Wanny", "285646688", "batman@uol.com");
 
 
-//var categoriaController = new CategoriaController();
+var funcController = new FuncionarioController();
 
 
-#region INSERT Categoria
+#region INSERT Funcionario
 //try
 //{
-//    categoriaController.AdicionarCategoria(categoria);
+//    funcController.AdicionarFuncionario(func);
 //}
 //catch (Exception ex)
 //{
@@ -20,14 +20,14 @@
 
 
 
-#region SELECT ALL Categorias
+#region SELECT ALL Funcionarios
 //try
 //{
-//    var listadeCategorias = categoriaController.ListarTodasCategorias();
+//    var lista = funcController.ListarTodosFuncionarios();
 
-//    foreach (var categoriadaLista in listadeCategorias)
+//    foreach (var f in lista)
 //    {
-//        Console.WriteLine(categoriadaLista);
+//        Console.WriteLine(f);
 //    }
 //}
 //catch (Exception ex)
@@ -37,11 +37,11 @@
 #endregion
 
 
-#region UPDATE Descrição
+#region UPDATE and Busca de Salario
 //try
 //{
-//    categoriaController.AtualizarDescricaoCategoria("[descrição]", "Grupo C");
-//    Console.WriteLine(categoriaController.BuscaCategoriaPorNome("Grupo C"));
+//    funcController.AtualizarSalarioFuncionario("batman@uol.com", 1300.90m);
+//    Console.WriteLine(funcController.BuscarFuncionarioEmail("batman@uol.com"));
 //}
 //catch (Exception ex)
 //{
@@ -50,24 +50,11 @@
 #endregion
 
 
-#region UPDATE Diária
+#region DELETE Funcionario
 //try
 //{
-//    categoriaController.AtualizarDiariaCategoria(109.90m, "Grupo C");
-//    Console.WriteLine(categoriaController.BuscaCategoriaPorNome("Grupo C"));
-//}
-//catch (Exception ex)
-//{
-//    Console.WriteLine(ex.Message);
-//}
-#endregion
-
-
-#region DELETE Categoria
-//try
-//{
-//    categoriaController.DeletarCategoria("Grupo A");
-//    Console.WriteLine("Categoria deletado com sucesso!");
+//    funcController.DeletarFuncionario("batman@uol.com");
+//    Console.WriteLine("Funcionario deletado com sucesso!");
 //}
 //catch (Exception ex)
 //{
@@ -77,10 +64,10 @@
 
 
 
-//   ----------------                      <<<   Veiculos   >>>                      ----------------                      
+//   ----------------                      <<<   Locação   >>>                      ----------------                      
 
 
-var veiculoController = new VeiculoController();
+var locacaoController = new LocacaoController();
 
 
 #region INSERT Veiculo
