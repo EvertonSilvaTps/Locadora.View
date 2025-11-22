@@ -124,7 +124,7 @@ namespace Locadora.Controller
         }
 
 
-        public Categoria BuscarCategoriaNome(string nome)
+        public Categoria? BuscarCategoriaNome(string nome)
         {
             SqlConnection connection = new SqlConnection(ConnectionDB.GetConnectionString());
 

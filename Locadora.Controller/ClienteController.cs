@@ -158,10 +158,6 @@ namespace Locadora.Controller
 
         public void AtualizarTelefoneCliente(string telefone, string email)
         {
-            // buscar o cliente
-            // atualizar a propriedade telefone
-            // salvar no banco
-
             var clienteEncontrado = this.BuscarClienteEmail(email);
 
             if (clienteEncontrado is null)

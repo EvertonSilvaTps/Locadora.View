@@ -43,7 +43,6 @@ namespace Locadora.Controller.Crud
         }
 
 
-
         private void SelectAllService()
         {
             Console.Clear();
@@ -83,6 +82,7 @@ namespace Locadora.Controller.Crud
                 Console.WriteLine(vlr + "\n");
 
                 string? phone = Validar.ValidarInputString("Informe o telefone atualizado: ");
+                if (phone == null) return;
 
                 Controller.AtualizarTelefoneCliente(phone, email);
 
@@ -140,14 +140,10 @@ namespace Locadora.Controller.Crud
         }
 
 
-
-
         private void DeleteService()
         {
             string? email = Validar.ValidarInputString("Informe o email para busca do cliente: ");
             if (email == null) return;
-
-
 
             try
             {

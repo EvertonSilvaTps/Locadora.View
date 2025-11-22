@@ -51,7 +51,6 @@ namespace Locadora.Controller
         public List<Veiculo> ListarTodosVeiculos()
         {
             var veiculos = new List<Veiculo>();
-            //var categoriaController = new CategoriaController();
 
             SqlConnection connection = new SqlConnection(ConnectionDB.GetConnectionString());
 
@@ -95,58 +94,52 @@ namespace Locadora.Controller
             }
         }
 
-        public Veiculo BuscarVeiculoPlaca(string placa)
+        public Veiculo? BuscarVeiculoPlaca(string placa)
         {
             var categoriaController = new CategoriaController();
-
             Veiculo veiculo = null;
 
             SqlConnection connection = new SqlConnection(ConnectionDB.GetConnectionString());
-
             connection.Open();
 
-            using (SqlCommand command = new SqlCommand(Veiculo.SELECTVEICULOBYPLACA, connection))
+            try
             {
-                try
-                {
-                    command.Parameters.AddWithValue("@Placa", placa);
+                SqlCommand command = new SqlCommand(Veiculo.SELECTVEICULOBYPLACA, connection);
+                command.Parameters.AddWithValue("@Placa", placa);
 
-                    using (SqlDataReader reader = command.ExecuteReader())
-                    {
-                        while (reader.Read())
-                        {
-                            //CategoriaID, Placa, Marca, Modelo, Ano, StatusVeiculo
-                            veiculo = new Veiculo(
-                                    reader.GetInt32(1),
-                                    reader.GetString(2),
-                                    reader.GetString(3),
-                                    reader.GetString(4),
-                                    reader.GetInt32(5),
-                                    reader.GetString(6)
-                                    );
+                SqlDataReader reader = command.ExecuteReader();
 
-                            veiculo.setVeiculoID(reader.GetInt32(0));
+                if (reader.Read())
+                {
+                    //CategoriaID, Placa, Marca, Modelo, Ano, StatusVeiculo
+                    veiculo = new Veiculo(
+                            reader.GetInt32(1),
+                            reader.GetString(2),
+                            reader.GetString(3),
+                            reader.GetString(4),
+                            reader.GetInt32(5),
+                            reader.GetString(6)
+                            );
 
-                            veiculo.setNomeCategoria(
-                                categoriaController.BuscarNomeCategoriaPorId(
-                                    veiculo.CategoriaID)
-                                );
-                        }
-                    }
+                    veiculo.setVeiculoID(reader.GetInt32(0));
+
+                    veiculo.setNomeCategoria(categoriaController.BuscarNomeCategoriaPorId(veiculo.CategoriaID));
+
+                    return veiculo;
                 }
-                catch (SqlException ex)
-                {
-                    throw new Exception("Erro ao buscar veículo: " + ex.Message);
-                }
-                catch (Exception ex)
-                {
-                    throw new Exception("Erro inesperado ao buscar veículo por placa: " + ex.Message);
-                }
-                finally
-                {
-                    connection.Close();
-                }
-                return veiculo ?? throw  new Exception("Veículo não encontrado");
+                return null;
+            }
+            catch (SqlException ex)
+            {
+                throw new Exception("Erro ao buscar veículo: " + ex.Message);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Erro inesperado ao buscar veículo por placa: " + ex.Message);
+            }
+            finally
+            {
+                connection.Close();
             }
         }
 

@@ -29,6 +29,45 @@
             return input;
         }
 
+        public static decimal ValidarInputDecimal(string text)
+        {
+            Console.Write(text);
+            string input = Console.ReadLine()!;
+
+            var validation = Decimal.TryParse(input, out decimal result);
+
+            while (!validation)
+            {
+                Console.Write("\nInválido! Digite apenas numerico ou [S] para sair: ");
+                input = Console.ReadLine()!;
+
+                if (input.ToUpper() == "S")
+                    return 0;
+
+                validation = Decimal.TryParse(input, out result);
+            }
+            return result;
+        }
+
+        public static int ValidarInputInt(string text)
+        {
+            Console.Write(text);
+            string input = Console.ReadLine()!;
+
+            var validation = int.TryParse(input, out int result);
+
+            while (!validation)
+            {
+                Console.Write("\nInválido! Digite apenas numerico ou [S] para sair: ");
+                input = Console.ReadLine()!;
+
+                if (input.ToUpper() == "S")
+                    return 0;
+
+                validation = int.TryParse(input, out result);
+            }
+            return result;
+        }
 
         public static DateOnly ValidarInputDateOnly(string text)
         {

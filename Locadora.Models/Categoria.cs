@@ -54,7 +54,7 @@
 
         public override string? ToString()
         {
-            return $"Nome: {Nome}\nDescrição: {(Descricao != null ? Descricao : "Não informado")}\nDiária: {Diaria}\n";
+            return $"Categoria: {Nome}\nDescrição: {(Descricao != null ? Descricao : "Não informado")}\nDiária: {Diaria}\n";
         }
 
 
