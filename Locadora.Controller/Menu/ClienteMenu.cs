@@ -78,7 +78,7 @@ namespace Locadora.Controller.Crud
                     return;
                 }
 
-                Console.WriteLine("\n=-=-=   >  Cliente  <   =-=-=\n");
+                Console.WriteLine("\n\n               =-=-=   >  Cliente  <   =-=-=\n");
                 Console.WriteLine(vlr + "\n");
 
                 string? phone = Validar.ValidarInputString("Informe o telefone atualizado: ");
@@ -110,7 +110,7 @@ namespace Locadora.Controller.Crud
                     return;
                 }
 
-                Console.WriteLine("\n=-=-=   >  Cliente  <   =-=-=\n");
+                Console.WriteLine("\n\n               =-=-=   >  Cliente  <   =-=-=\n");
                 Console.WriteLine(vlr + "\n");
 
                 Console.WriteLine(" > Preencha os campos atualizados do documento do cliente\n");

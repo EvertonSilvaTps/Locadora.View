@@ -13,6 +13,13 @@
                                                                 FROM tblVeiculos
                                                                 WHERE Placa = @Placa";
 
+
+        public readonly static string SELECTVEICULOBYID = @"SELECT VeiculoID, CategoriaID, 
+                                                           Placa, Marca, Modelo, Ano, StatusVeiculo
+                                                           FROM tblVeiculos 
+                                                           WHERE VeiculoID = @VeiculoID";
+
+
         public readonly static string UPDATESTATUSVEICULO = @"UPDATE tblVeiculos 
                                                     SET StatusVeiculo = @StatusVeiculo
                                                     WHERE VeiculoID = @VeiculoID";
@@ -23,7 +30,7 @@
 
         public int VeiculoID { get; private set; }
         public int CategoriaID { get; private set; }
-        public string? NomeCategoria { get; private set; }
+        public Categoria? Categoria { get; private set; }
         public string Placa { get; private set; }
         public string Marca{ get; private set; }
         public string Modelo { get; private set; }
@@ -42,14 +49,25 @@
             StatusVeiculo = statusVeiculo;
         }
 
+        public Veiculo(string placa, string marca, string modelo, int ano, string statusVeiculo)
+        {
+            Categoria = null;
+            Placa = placa;
+            Marca = marca;
+            Modelo = modelo;
+            Ano = ano;
+            StatusVeiculo = statusVeiculo;
+        }
+
+
         public void setVeiculoID(int veiculoID)
         {
             VeiculoID = veiculoID;
         }
 
-        public void setNomeCategoria(string nomeCategoria)
+        public void setCategoria(Categoria categoria)
         {
-            NomeCategoria = nomeCategoria;
+            Categoria = categoria;
         }
 
         public void setStatusVeiculo(string statusVeiculo)
@@ -59,9 +77,9 @@
 
         public override string? ToString()
         {
-            return $"Placa: {Placa}  |  Marca: {Marca}  |  Modelo: {Modelo}  |  " +
+            return $"Categoria: {CategoriaID} |  Placa: {Placa}  |  Marca: {Marca}  |  Modelo: {Modelo}  |  " +
                 $"Ano: {Ano}  |  Status: {StatusVeiculo}\n" +
-                $"---------------------------------------------------------------------------------------------";
+                $"-----------------------------------------------------------------------------------------------------------";
         }
     }
 }

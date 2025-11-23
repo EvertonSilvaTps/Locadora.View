@@ -10,9 +10,11 @@
         public readonly static string SELECTCATEGORIAPORNOME = @"SELECT CategoriaId, Nome, Descricao, Diaria 
                                                                 FROM tblCategorias c
                                                                 WHERE c.Nome = @Nome";
-        
-        public readonly static string SELECTNOMECATEGORIAPORID = "SELECT Nome FROM tblCategorias WHERE CategoriaID = @Id";
-        
+
+        public readonly static string SELECTCATEGORIAPORID = "SELECT * " +
+                                                       "FROM tblCategorias " +
+                                                       "WHERE CategoriaID = @CategoriaID";
+
         public readonly static string UPDATEDESCRICAOCATEGORIA = "UPDATE tblCategorias SET Descricao = @Descricao " +
                                                                     "WHERE CategoriaId = @CategoriaId";
         

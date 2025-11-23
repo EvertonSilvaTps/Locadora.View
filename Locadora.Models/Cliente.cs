@@ -21,6 +21,15 @@
                                                             ON c.ClienteID = d.ClienteID
                                                             WHERE c.Email = @Email";
 
+
+        public readonly static string SELECTCLIENTEPORID = "SELECT c.ClienteID, c.Nome, c.Email, c.Telefone, " +
+                                                  "d.TipoDocumento, d.Numero, d.DataEmissao, d.DataValidade " +
+                                                  "FROM tblClientes c " +
+                                                  "join tblDocumentos d " +
+                                                  "on c.ClienteID = d.ClienteID " +
+                                                   "WHERE c.ClienteID = @ClienteID";
+
+
         public readonly static string DELETECLIENTE = "DELETE FROM tblClientes " +
                                                         "WHERE ClienteID = @IdCliente";
 

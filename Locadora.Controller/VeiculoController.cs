@@ -113,7 +113,6 @@ namespace Locadora.Controller
                 {
                     //CategoriaID, Placa, Marca, Modelo, Ano, StatusVeiculo
                     veiculo = new Veiculo(
-                            reader.GetInt32(1),
                             reader.GetString(2),
                             reader.GetString(3),
                             reader.GetString(4),
@@ -123,7 +122,7 @@ namespace Locadora.Controller
 
                     veiculo.setVeiculoID(reader.GetInt32(0));
 
-                    veiculo.setNomeCategoria(categoriaController.BuscarNomeCategoriaPorId(veiculo.CategoriaID));
+                    veiculo.setCategoria(categoriaController.BuscarNomeCategoriaPorId(reader.GetInt32(1)));
 
                     return veiculo;
                 }
@@ -142,6 +141,53 @@ namespace Locadora.Controller
                 connection.Close();
             }
         }
+
+
+        public Veiculo BuscarVeiculoId(int id)
+        {
+            SqlConnection connection = new SqlConnection(ConnectionDB.GetConnectionString());
+            Veiculo veiculo = null;
+
+            connection.Open();
+
+            try
+            {
+                SqlCommand command = new SqlCommand(Veiculo.SELECTVEICULOBYID, connection);
+                command.Parameters.AddWithValue("@VeiculoID", id);
+
+                SqlDataReader reader = command.ExecuteReader();
+
+                var categoriaController = new CategoriaController();
+                if (reader.Read())
+                {
+                    veiculo = new Veiculo(
+                            reader.GetString(2),
+                            reader.GetString(3),
+                            reader.GetString(4),
+                            reader.GetInt32(5),
+                            reader.GetString(6)
+                         );
+
+                    veiculo.setVeiculoID(reader.GetInt32(0));
+                    veiculo.setCategoria(categoriaController.BuscarNomeCategoriaPorId(reader.GetInt32(1)));
+
+                }
+            }
+            catch (SqlException ex)
+            {
+                throw new Exception("Erro ao buscar veiculo por id: " + ex.Message);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Erro inesperado ao buscar veiculo por id: " + ex.Message);
+            }
+            finally
+            {
+                connection.Close();
+            }
+            return veiculo ?? throw new Exception("Veiculo não encontrado!");
+        }
+
 
         public void AtualizarStatusVeiculo(string statusVeiculo, string placa)
         {
@@ -181,6 +227,7 @@ namespace Locadora.Controller
             }
         }
 
+
         public void DeletarVeiculo(int idVeiculo)
         {
             SqlConnection connection = new SqlConnection(ConnectionDB.GetConnectionString());
@@ -212,8 +259,6 @@ namespace Locadora.Controller
                 }
             }
         }
-
-
 
 
     }

@@ -8,7 +8,7 @@ namespace Locadora.Controller.Interfaces
 
         public List<Categoria> ListarTodasCategorias();
 
-        public string BuscarNomeCategoriaPorId(int id);
+        public Categoria BuscarNomeCategoriaPorId(int id);
 
         public Categoria BuscarCategoriaNome(string nome);
 

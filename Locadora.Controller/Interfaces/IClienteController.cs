@@ -10,6 +10,8 @@ namespace Locadora.Controller.Interfaces
 
         public Cliente BuscarClienteEmail(string email);
 
+        public Cliente? BuscaClientePorId(int id);
+
         public void AtualizarTelefoneCliente(string telefone, string email);
 
         public void AtualizarDocumentoCliente(string email, Documento documento);

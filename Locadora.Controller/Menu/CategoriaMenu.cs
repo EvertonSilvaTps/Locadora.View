@@ -66,10 +66,10 @@ namespace Locadora.Controller.Menu
                     return;
                 }
 
-                Console.WriteLine("\n=-=-=   >  Categoria  <   =-=-=\n");
+                Console.WriteLine("\n\n                        =-=-=   >  Categoria  <   =-=-=\n");
                 Console.WriteLine(vlr + "\n");
 
-                string? description = Validar.ValidarInputString("Informe a nova descrição: ");
+                string? description = Validar.ValidarInputString(" > Informe a nova descrição: ");
                 if (description == null) return;
 
                 Controller.AtualizarDescricaoCategoria(description, name);
@@ -97,10 +97,10 @@ namespace Locadora.Controller.Menu
                     return;
                 }
 
-                Console.WriteLine("\n=-=-=   >  Categoria  <   =-=-=\n");
+                Console.WriteLine("\n\n                        =-=-=   >  Categoria  <   =-=-=\n");
                 Console.WriteLine(vlr);
 
-                decimal daily = Validar.ValidarInputDecimal("Informe o novo Valor da Diária: R$ ");
+                decimal daily = Validar.ValidarInputDecimal("\n > Informe o novo Valor da Diária: R$ ");
                 if (daily == 0) return;
 
                 Controller.AtualizarDiariaCategoria(daily, name);

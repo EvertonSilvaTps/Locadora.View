@@ -62,11 +62,11 @@ namespace Locadora.Controller
                 while (reader.Read())
                 {
                     var funcionario = new Funcionario(reader["Nome"].ToString()!,
-                                                reader["CPF"].ToString()!,
-                                                reader["Email"].ToString()!,
-                                                reader["Salario"] != DBNull.Value ?
-                                                reader.GetDecimal(3) : null
-                                                );
+                                                    reader["CPF"].ToString()!,
+                                                    reader["Email"].ToString()!,
+                                                    reader["Salario"] != DBNull.Value ?
+                                                    reader.GetDecimal(3) : null
+                                                    );
 
                     listaFuncionarios.Add(funcionario);
                 }

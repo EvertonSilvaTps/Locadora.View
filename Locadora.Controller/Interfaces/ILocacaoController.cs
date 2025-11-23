@@ -6,14 +6,13 @@ namespace Locadora.Controller.Interfaces
     {
         public void AdicionarLocacao(Locacao locacao);
 
+        public void AtualizarDataDevolucaoRealLocacao(Guid id, DateTime devolucao);
+
+        public void AtualizarStatusLocacao(Guid id, string status);
+
+        public Locacao? BuscarLocacaoPorId(Guid id);
+
         public List<Locacao> ListarTodasLocacoes();
 
-        public Locacao BuscarLocacaoPorNomeCliente(string nomeCliente);
-
-        public void AtualizarVeiculoIDLocacao(string nomeCliente, string placa);
-        
-        public void AtualizarDiasLocacao(decimal nomeCliente, string diasLocacao);
-
-        public void AtualizarStatus(decimal nomeCliente, string diasLocacao);
     }
 }

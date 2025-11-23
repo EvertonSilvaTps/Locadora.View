@@ -80,10 +80,10 @@ namespace Locadora.Controller.Menu
                     return;
                 }
 
-                Console.WriteLine("\n=-=-=   >  Veículo  <   =-=-=\n");
+                Console.WriteLine("\n\n                                    =-=-=   >  Veículo  <   =-=-=\n");
                 Console.WriteLine(vlr);
 
-                int? vehicleStatus = Validar.ValidarInputInt(" Informe o novo status [1] Disponivel | [2] Alugado | [3] Manutencao: ");
+                int? vehicleStatus = Validar.ValidarInputInt("\n Informe o novo status [1] Disponivel | [2] Alugado | [3] Manutencao: ");
                 if (vehicleStatus == 0 || vehicleStatus is not 1 && vehicleStatus is not 2 && vehicleStatus is not 3) return;
 
                 if (vehicleStatus == 1)
