@@ -10,9 +10,14 @@ namespace Locadora.Controller.Menu
 
         private void InsertService()
         {
-            string? category = Validar.ValidarInputString("Nome da categoria do Veículo: ");
-            if (category == null) return;
-            var Id = new CategoriaController().BuscarCategoriaNome(category);
+            string? input = Validar.ValidarInputString("Nome da categoria do Veículo: ");
+            if (input == null) return;
+            var category = new CategoriaController().BuscarCategoriaNome(input);
+            if (category == null)
+            {
+                Console.WriteLine($"\nNão existe categoria com este nome cadastrado!");
+                return;
+            }
 
             string? plate = Validar.ValidarInputString("Placa: ");
             if (plate == null) return;
@@ -26,10 +31,7 @@ namespace Locadora.Controller.Menu
             int year = Validar.ValidarInputInt("Ano do Veículo: ");
             if (year == 0) return;
 
-            string? vehicleStatus = Validar.ValidarInputString("Modelo: ");
-            if (vehicleStatus == null) return;
-
-            Veiculo vehicle = new Veiculo(Id.CategoriaId, plate, mark, model, year, EStatusVeiculo.Disponivel.ToString());
+            Veiculo vehicle = new Veiculo(category.CategoriaId, plate, mark, model, year, EStatusVeiculo.Disponivel.ToString());
 
             try
             {
@@ -79,10 +81,10 @@ namespace Locadora.Controller.Menu
                 }
 
                 Console.WriteLine("\n=-=-=   >  Veículo  <   =-=-=\n");
-                Console.WriteLine(vlr + "\n");
+                Console.WriteLine(vlr);
 
-                int? vehicleStatus = Validar.ValidarInputInt("Atualizar Stutas [1] Disponivel | [2] Alugado | [3] Manutencao | [4] Reservado: ");
-                if (vehicleStatus == 0) return;
+                int? vehicleStatus = Validar.ValidarInputInt(" Informe o novo status [1] Disponivel | [2] Alugado | [3] Manutencao: ");
+                if (vehicleStatus == 0 || vehicleStatus is not 1 && vehicleStatus is not 2 && vehicleStatus is not 3) return;
 
                 if (vehicleStatus == 1)
                     Controller.AtualizarStatusVeiculo(EStatusVeiculo.Disponivel.ToString(), plate);
@@ -90,10 +92,9 @@ namespace Locadora.Controller.Menu
                     Controller.AtualizarStatusVeiculo(EStatusVeiculo.Alugado.ToString(), plate);
                 else if (vehicleStatus == 3)
                     Controller.AtualizarStatusVeiculo(EStatusVeiculo.Manutencao.ToString(), plate);
-                else if (vehicleStatus == 4)
-                    Controller.AtualizarStatusVeiculo(EStatusVeiculo.Reservado.ToString(), plate);
 
-                Console.WriteLine("\n >>>  Status atualizado com sucesso!");
+
+                    Console.WriteLine("\n >>>  Status atualizado com sucesso!");
             }
             catch (Exception ex)
             {
@@ -152,14 +153,13 @@ namespace Locadora.Controller.Menu
             do
             {
                 Console.Clear();
-                Console.WriteLine(" |-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=|");
-                Console.WriteLine(" |                       >      Veículo      <                      |");
-                Console.WriteLine(" |------------------------------------------------------------------|");
-                Console.WriteLine(" | [ 1 ] Cadastrar Veículo   |   [ 2 ] Exibir Veículos Alugados     |");
-                Console.WriteLine(" | [ 3 ] Atualizar Stutus    |   [ 4 ] Exibir Veículos Disponíveis  |");
-                Console.WriteLine(" | [ 5 ] Exibir Categorias   |   [ 6 ] Exibir Todos os Veículos     |");
-                Console.WriteLine(" | [ 7 ] Deletar Veículo     |   [ 8 ] Voltar                       |");
-                Console.WriteLine(" |-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=|");
+                Console.WriteLine(" |-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=|");
+                Console.WriteLine(" |                  >      Veículo      <                 |");
+                Console.WriteLine(" |--------------------------------------------------------|");
+                Console.WriteLine(" | [ 1 ] Cadastrar Veículo   |   [ 2 ] Exibir Veiculos    |");
+                Console.WriteLine(" | [ 3 ] Atualizar Stutus    |   [ 4 ] Exibir Categorias  |");
+                Console.WriteLine(" | [ 5 ] Deletar Veículo     |   [ 6 ] Voltar             |");
+                Console.WriteLine(" |-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=|");
                 Console.WriteLine();
                 Console.Write("  >>> Informe o menu desejado: ");
                 string entrada = Console.ReadLine()!;
@@ -172,24 +172,18 @@ namespace Locadora.Controller.Menu
                         InsertService();
                         break;
                     case 2:
-                        SelectAllService();  // fazer ainda
+                        SelectAllService();
                         break;
                     case 3:
                         UpdateStatusService();
                         break;
                     case 4:
-                        SelectAllService();  // fazer ainda
-                        break;
-                    case 5:
                         listCategory.SelectAllService();
                         break;
-                    case 6:
-                        SelectAllService();
-                        break;
-                    case 7:
+                    case 5:
                         DeleteService();
                         break;
-                    case 8:
+                    case 6:
                         return;
                     default:
                         Console.WriteLine("\nOpção Inválida. Tente novamente.");

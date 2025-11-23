@@ -57,11 +57,11 @@
             StatusVeiculo = statusVeiculo;
         }
 
-
         public override string? ToString()
         {
-            return $"Placa: {Placa}\nMarca: {Marca}\nModelo: {Modelo}\n" +
-                $"Ano: {Ano}\nStatus: {StatusVeiculo}\nCategoria: {NomeCategoria}\n";
+            return $"Placa: {Placa}  |  Marca: {Marca}  |  Modelo: {Modelo}  |  " +
+                $"Ano: {Ano}  |  Status: {StatusVeiculo}\n" +
+                $"---------------------------------------------------------------------------------------------";
         }
     }
 }

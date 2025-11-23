@@ -289,8 +289,5 @@ namespace Locadora.Controller
                 }
             }
         }
-
-
-
     }
 }

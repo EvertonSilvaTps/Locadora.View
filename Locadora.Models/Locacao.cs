@@ -29,10 +29,10 @@ namespace Locadora.Models
         //TODO: Definir os valores de cliente e veículo como nome e modelo respectivamente
         public override string? ToString()
         {
-            return $"Cliente ID: {ClienteID}\nVeiculo ID: {VeiculoID}\n" +
-            $"Data de Locação: {DataLocacao}\nData de Devolução Prevista: {DataDevolucaoPrevista}\nData de Devolução Real: {DataDevolucaoReal}\n" +
-            $"Valor da Diária: {ValorDiaria:C}\nValor Total: {ValorTotal:C}\n" +
-            $"Multa: {Multa:C}\nStatus: {Status}\n";
+            return $"Cliente ID: {ClienteID}  |  Veiculo ID: {VeiculoID}\n" +
+            $"Data de Locação: {DataLocacao}  |  Data de Devolução Prevista: {DataDevolucaoPrevista}  |  Data de Devolução Real: {DataDevolucaoReal}\n" +
+            $"Valor da Diária: {ValorDiaria:C}  |  Valor Total: {ValorTotal:C}  |  Multa: {Multa:C}  |  Status: {Status}\n" +
+            $"--------------------------------------------------------------";
         }
     }
 }

@@ -49,7 +49,9 @@
 
         public override string? ToString()
         {
-            return $"Nome: {Nome}\nCPF: {CPF}\nEmail: {Email}\nSalário: {(Salario == null ? "Sem sálario" : Salario)}\n";
+            return $"Nome: {Nome}  |  CPF: {CPF}\n" +
+                $"Email: {Email}  |  Salário: {(Salario == null ? "Sem sálario" : Salario)}\n" +
+                $"------------------------------------------------------";
         }
     }
 }

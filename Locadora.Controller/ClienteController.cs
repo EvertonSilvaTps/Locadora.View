@@ -265,9 +265,6 @@ namespace Locadora.Controller
                     throw new Exception("Erro inesperado ao deletar o cliente: " + ex.Message);
                 }
             }
-
         }
-
-
     }
 }

@@ -49,6 +49,30 @@
             return result;
         }
 
+
+        public static decimal? ValidarInputDecimalOpcional(string text)
+        {
+            Console.Write(text);
+            string input = Console.ReadLine()!;
+
+            if (string.IsNullOrWhiteSpace(input)) return null;
+
+            var validation = Decimal.TryParse(input, out decimal result);
+
+            while (!validation)
+            {
+                Console.Write("\nInválido! Digite apenas numerico ou [S] para sair: ");
+                input = Console.ReadLine()!;
+
+                if (input.ToUpper() == "S")
+                    return null;
+
+                validation = Decimal.TryParse(input, out result);
+            }
+            return result;
+        }
+
+
         public static int ValidarInputInt(string text)
         {
             Console.Write(text);

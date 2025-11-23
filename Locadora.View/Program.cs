@@ -6,7 +6,7 @@ using Locadora.Controller.Menu;
 //Funcionario func = new Funcionario("Bruce Wanny", "285646688", "batman@uol.com");
 
 
-var funcController = new FuncionarioController();
+//var funcController = new FuncionarioController();
 
 
 #region INSERT Funcionario
@@ -69,7 +69,7 @@ var funcController = new FuncionarioController();
 //   ----------------                      <<<   Locação   >>>                      ----------------                      
 
 
-var locacaoController = new LocacaoController();
+//var locacaoController = new LocacaoController();
 
 
 #region INSERT Veiculo
@@ -141,11 +141,61 @@ var locacaoController = new LocacaoController();
 //}
 #endregion
 
+
+
+
 var customer = new ClienteMenu();
-customer.MenuCliente();
+var category = new CategoriaMenu();
+var vehicle = new VeiculoMenu();
+var employeer = new FuncionarioMenu();
 
-//var category = new CategoriaMenu();
-//category.MenuCategoria();
+int opcao = 0;
+do
+{
+    Console.Clear();
+    Console.WriteLine(" |-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=|");
+    Console.WriteLine(" |       >    Sistema Locadora de Veículos    <       |");
+    Console.WriteLine(" |----------------------------------------------------|");
+    Console.WriteLine(" | [ 1 ] Locar Veículo      |   [ 2 ] Menu Exibir     |");
+    Console.WriteLine(" | [ 3 ] Menu Veículo       |   [ 4 ] Menu Categoria  |");
+    Console.WriteLine(" | [ 5 ] Menu Funcionario   |   [ 6 ] Menu Cliente    |");
+    Console.WriteLine(" | [ 7 ] Sair               |                         |");
+    Console.WriteLine(" |-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=|");
+    Console.WriteLine();
+    Console.Write("  >>> Informe o menu desejado: ");
+    string entrada = Console.ReadLine()!;
+    bool conversao = int.TryParse(entrada, out opcao);
+    Console.WriteLine("---------------------------------------");
 
-//var vehicle = new VeiculoMenu();
-//vehicle.MenuVeiculo();
+    switch (opcao)
+    {
+        case 1:
+            //
+            break;
+        case 2:
+            //
+            break;
+        case 3:
+            vehicle.MenuVeiculo();
+            break;
+        case 4:
+            category.MenuCategoria();
+            break;
+        case 5:
+            employeer.MenuFuncionario();
+            break;
+        case 6:
+            customer.MenuCliente();
+            break;
+        case 7:
+            Console.WriteLine("Encerrando o programa...");
+            return;
+        default:
+            Console.WriteLine("\nOpção Inválida. Tente novamente.");
+            break;
+    }
+
+    Console.Write("\n  >  Pressione qualquer Tecla para prosseguir ");
+    Console.ReadLine();
+
+} while (true);
