@@ -1,10 +1,5 @@
 ﻿using Locadora.Controller.Validation;
 using Locadora.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Locadora.Controller.Menu
 {
@@ -74,7 +69,7 @@ namespace Locadora.Controller.Menu
                     return;
                 }
 
-                Console.WriteLine("\n=-=-=   >  Funcionario  <   =-=-=\n");
+                Console.WriteLine("\n       =-=-=   >  Funcionario  <   =-=-=\n");
                 Console.WriteLine(vlr + "\n");
 
                 decimal salary = Validar.ValidarInputDecimal("Informe o novo salário: ");

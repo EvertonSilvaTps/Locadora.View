@@ -147,7 +147,7 @@ namespace Locadora.Controller
                 {
                     SqlCommand command = new SqlCommand(Funcionario.UPDATESALARIOFUNCIONARIO, connection, transaction);
                     command.Parameters.AddWithValue("@Salario", funcionarioBuscado.Salario);
-                    command.Parameters.AddWithValue("@FuncionarioID", funcionarioBuscado.FuncioonarioID);
+                    command.Parameters.AddWithValue("@FuncionarioID", funcionarioBuscado.FuncionarioID);
                     command.ExecuteNonQuery();
 
                     transaction.Commit();
@@ -186,7 +186,7 @@ namespace Locadora.Controller
                 {
                     SqlCommand command = new SqlCommand(Funcionario.DELETEFUNCIONARIO, connection, transaction);
 
-                    command.Parameters.AddWithValue("@FuncionarioID", funcionarioBuscado.FuncioonarioID);
+                    command.Parameters.AddWithValue("@FuncionarioID", funcionarioBuscado.FuncionarioID);
 
                     command.ExecuteNonQuery();
 

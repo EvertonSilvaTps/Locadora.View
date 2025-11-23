@@ -28,10 +28,10 @@ namespace Locadora.Controller.Menu
             string? model = Validar.ValidarInputString("Modelo: ");
             if (model == null) return;
 
-            int year = Validar.ValidarInputInt("Ano do Veículo: ");
-            if (year == 0) return;
+            int? year = Validar.ValidarInputInt("Ano do Veículo: ");
+            if (year == null) return;
 
-            Veiculo vehicle = new Veiculo(category.CategoriaId, plate, mark, model, year, EStatusVeiculo.Disponivel.ToString());
+            Veiculo vehicle = new Veiculo(category.CategoriaId, plate, mark, model, year.Value, EStatusVeiculo.Disponível.ToString());
 
             try
             {
@@ -84,10 +84,10 @@ namespace Locadora.Controller.Menu
                 Console.WriteLine(vlr);
 
                 int? vehicleStatus = Validar.ValidarInputInt("\n Informe o novo status [1] Disponivel | [2] Alugado | [3] Manutencao: ");
-                if (vehicleStatus == 0 || vehicleStatus is not 1 && vehicleStatus is not 2 && vehicleStatus is not 3) return;
+                if (vehicleStatus == null || (vehicleStatus is not 1 && vehicleStatus is not 2 && vehicleStatus is not 3)) return;
 
                 if (vehicleStatus == 1)
-                    Controller.AtualizarStatusVeiculo(EStatusVeiculo.Disponivel.ToString(), plate);
+                    Controller.AtualizarStatusVeiculo(EStatusVeiculo.Disponível.ToString(), plate);
                 else if (vehicleStatus == 2)
                     Controller.AtualizarStatusVeiculo(EStatusVeiculo.Alugado.ToString(), plate);
                 else if (vehicleStatus == 3)

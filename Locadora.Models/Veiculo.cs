@@ -27,6 +27,8 @@
         public readonly static string DELETEVEICULO = @"DELETE FROM tblVeiculos
                                                         WHERE VeiculoID = @IdVeiculo";
 
+        public readonly static string CHECKVEICULO = @"SELECT StatusVeiculo FROM tblVeiculos WHERE VeiculoID = @VeiculoID";
+
 
         public int VeiculoID { get; private set; }
         public int CategoriaID { get; private set; }

@@ -17,7 +17,7 @@
                                                             WHERE FuncionarioID = @FuncionarioID";
 
 
-        public int FuncioonarioID { get; private set; }
+        public int FuncionarioID { get; private set; }
         public string Nome { get; private set; }
         public string CPF { get; private set; }
         public string Email { get; private set; }
@@ -38,7 +38,7 @@
 
         public void setFuncionarioID(int funcionarioId)
         {
-            FuncioonarioID = funcionarioId;
+            FuncionarioID = funcionarioId;
         }
 
         public void setSalario(decimal salario)

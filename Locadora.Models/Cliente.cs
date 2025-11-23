@@ -23,15 +23,21 @@
 
 
         public readonly static string SELECTCLIENTEPORID = "SELECT c.ClienteID, c.Nome, c.Email, c.Telefone, " +
-                                                  "d.TipoDocumento, d.Numero, d.DataEmissao, d.DataValidade " +
-                                                  "FROM tblClientes c " +
-                                                  "join tblDocumentos d " +
-                                                  "on c.ClienteID = d.ClienteID " +
-                                                   "WHERE c.ClienteID = @ClienteID";
+                                                            "d.TipoDocumento, d.Numero, d.DataEmissao, d.DataValidade " +
+                                                            "FROM tblClientes c " +
+                                                            "join tblDocumentos d " +
+                                                            "on c.ClienteID = d.ClienteID " +
+                                                            "WHERE c.ClienteID = @ClienteID";
 
 
         public readonly static string DELETECLIENTE = "DELETE FROM tblClientes " +
                                                         "WHERE ClienteID = @IdCliente";
+
+
+        public readonly static string SELECTDATAVALIDADEPORID = @"SELECT DataValidade 
+                                                                FROM tblDocumentos
+                                                                WHERE ClienteID = @ClienteID";
+
 
         public int ClienteID { get; private set; }
         public string Nome { get; private set; }

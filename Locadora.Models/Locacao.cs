@@ -19,7 +19,14 @@ namespace Locadora.Models
                                                            WHERE LocacaoID = @LocacaoID";
 
 
-        public readonly static string UPDATELOCACAODEVOLUCAOREAL = "UPDATE tblLocacoes SET DataDevolucaoReal = @DataDEvolucaoReal WHERE LocacaoID = @LocacaoID";
+        public readonly static string SELECTLOCACAOPORCLIENTE = "SELECT * FROM tblLocacoes WHERE ClienteID = @ClienteID";
+
+        public readonly static string SELECTLOCACAOPORFUNCIONARIO = @"SELECT l.LocacaoID, l.ClienteID, l.VeiculoID, l.DataLocacao,
+                                                                    l.DataDevolucaoPrevista, l.DataDevolucaoReal, l.ValorDiaria, l.ValorTotal, l.Multa, l.Status 
+                                                                    FROM tblLocacoesFuncionarios WHERE FuncionarioID = @FuncionarioID";
+
+
+        public readonly static string UPDATELOCACAODEVOLUCAOREAL = "UPDATE tblLocacoes SET DataDevolucaoReal = @DataDevolucaoReal WHERE LocacaoID = @LocacaoID";
         
         
         public readonly static string UPDATELOCACAOSTATUS = @"UPDATE tblLocacoes SET Status = @Status, 
@@ -36,13 +43,13 @@ namespace Locadora.Models
         public decimal Multa { get; private set; }
         public EStatusLocacao Status { get; private set; }
 
-        public Locacao(Cliente cliente, Veiculo veiculo, decimal valorDiaria, int diasLocacao)
+        public Locacao(Cliente cliente, Veiculo veiculo, int diasLocacao)
         {
             Cliente = cliente;
             Veiculo = veiculo;
             DataLocacao = DateTime.Now;
-            ValorDiaria = valorDiaria;
-            ValorTotal = valorDiaria * diasLocacao;
+            ValorDiaria = Veiculo.Categoria.Diaria;
+            ValorTotal = Veiculo.Categoria.Diaria * diasLocacao;
             DataDevolucaoPrevista = DateTime.Now.AddDays(diasLocacao);
             DataDevolucaoReal = null;
             this.Multa = 0.5m * (decimal)this.Veiculo.Categoria.Diaria;    // CategoriaID  == Diaria
@@ -50,9 +57,7 @@ namespace Locadora.Models
         }
 
 
-        public Locacao(Guid locacaoID, Cliente cliente, Veiculo veiculo, DateTime dataLocacao,
-            DateTime dataDevolucaoPrevista, DateTime? dataDevolucaoReal, decimal valorDiaria,
-            decimal valorTotal, decimal multa, string status)
+        public Locacao(Guid locacaoID, Cliente cliente, Veiculo veiculo, DateTime dataLocacao, DateTime dataDevolucaoPrevista, DateTime? dataDevolucaoReal, decimal valorDiaria, decimal valorTotal, decimal multa, string status)
         {
             LocacaoID = locacaoID;
             this.Cliente = cliente;
@@ -65,6 +70,12 @@ namespace Locadora.Models
             Multa = multa;
             Status = EStatusLocacao.Ativa;
         }
+
+        // Construtor para fazer o select de locação por cliente e funcionario.
+        public Locacao(int clienteID, int veiculoID, DateTime daLocacao, DateTime dataDevolucao, decimal valorDiaria, string? status)
+        {
+        }
+
 
         public void setDataDevolucaoReal(DateTime dataDevolucao)
         {

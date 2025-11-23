@@ -148,6 +148,7 @@ var customer = new ClienteMenu();
 var category = new CategoriaMenu();
 var vehicle = new VeiculoMenu();
 var employeer = new FuncionarioMenu();
+var rental = new LocacaoMenu();
 
 int opcao = 0;
 do
@@ -156,7 +157,7 @@ do
     Console.WriteLine(" |-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=|");
     Console.WriteLine(" |       >    Sistema Locadora de Veículos    <       |");
     Console.WriteLine(" |----------------------------------------------------|");
-    Console.WriteLine(" | [ 1 ] Locar Veículo      |   [ 2 ] Menu Exibir     |");
+    Console.WriteLine(" | [ 1 ] Menu Locação       |   [ 2 ] Menu Exibir     |");
     Console.WriteLine(" | [ 3 ] Menu Veículo       |   [ 4 ] Menu Categoria  |");
     Console.WriteLine(" | [ 5 ] Menu Funcionario   |   [ 6 ] Menu Cliente    |");
     Console.WriteLine(" | [ 7 ] Sair               |                         |");
@@ -170,7 +171,7 @@ do
     switch (opcao)
     {
         case 1:
-            //
+            rental.MenuLocacao();
             break;
         case 2:
             //
