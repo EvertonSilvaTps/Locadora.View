@@ -62,11 +62,12 @@ namespace Locadora.Controller
 
                 while (reader.Read())
                 {
-                    var funcionario = new Funcionario(reader["Nome"].ToString()!,
+                    var funcionario = new Funcionario(reader.GetInt32(0),
+                                                    reader["Nome"].ToString()!,
                                                     reader["CPF"].ToString()!,
                                                     reader["Email"].ToString()!,
                                                     reader["Salario"] != DBNull.Value ?
-                                                    reader.GetDecimal(3) : null
+                                                    reader.GetDecimal(4) : null
                                                     );
 
                     listaFuncionarios.Add(funcionario);
@@ -110,7 +111,7 @@ namespace Locadora.Controller
                                                 reader.GetDecimal(4) : null
                                                 );
 
-                    funcionario.setFuncionarioID(Convert.ToInt32(reader["FuncionarioID"]));
+                    funcionario.setFuncionarioID(Convert.ToInt32(reader.GetInt32(0)));
 
                     return funcionario;
                 }
@@ -127,6 +128,48 @@ namespace Locadora.Controller
             finally
             {
                 connection.Close();
+            }
+        }
+
+
+        public Funcionario BuscarFuncionarioPorID(int id)
+        {
+            SqlConnection connection = new SqlConnection(ConnectionDB.GetConnectionString());
+
+            connection.Open();
+
+            using (connection)
+            {
+                try
+                {
+                    SqlCommand command = new SqlCommand(Funcionario.SELECTFUNCIONARIOPORID, connection);
+                    command.Parameters.AddWithValue("@FuncionarioID", id);
+                    SqlDataReader reader = command.ExecuteReader();
+                    if (reader.Read())
+                    {
+                        var funcionario = new Funcionario(
+                        reader["Nome"].ToString(),
+                        reader["CPF"].ToString(),
+                        reader["Email"].ToString(),
+                        reader["Salario"] is decimal s ? s : reader["Salario"] != DBNull.Value ? Convert.ToDecimal(reader["Salario"]) : 0m);
+
+
+                        return funcionario;
+                    }
+                    return null;
+                }
+                catch (SqlException ex)
+                {
+                    throw new Exception("Erro ao buscar funcionário por id: " + ex.Message);
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception("Erro inesperado ao buscar funcionário por id: " + ex.Message);
+                }
+                finally
+                {
+                    connection.Close();
+                }
             }
         }
 

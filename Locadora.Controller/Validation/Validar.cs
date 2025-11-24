@@ -98,6 +98,27 @@ namespace Locadora.Controller.Validation
         }
 
 
+        public static int? ValidarInputIntFun(string text)
+        {
+            Console.Write(text);
+            string input = Console.ReadLine()!.Trim();
+
+            var validation = int.TryParse(input, out int result);
+
+            while (!validation)
+            {
+                Console.Write("\nInválido! Digite apenas ID de funcionarios ou [S] para sair: ");
+                input = Console.ReadLine()!;
+
+                if (input.Trim().ToUpper() == "S")
+                    return null;
+
+                validation = int.TryParse(input, out result);
+            }
+            return result;
+        }
+
+
         public static DateOnly ValidarInputDateOnly(string text)
         {
             Console.Write(text);

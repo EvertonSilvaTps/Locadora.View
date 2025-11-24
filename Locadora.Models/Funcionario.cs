@@ -1,10 +1,12 @@
-﻿namespace Locadora.Models
+﻿using System.Net.Sockets;
+
+namespace Locadora.Models
 {
     public class Funcionario
     {
         public readonly static string INSERTFUNCIONARIO = "INSERT INTO tblFuncionarios VALUES (@Nome, @CPF, @Email, @Salario)";
 
-        public readonly static string SELECTALLFUNCIONARIOS = @"SELECT Nome, CPF, Email, Salario 
+        public readonly static string SELECTALLFUNCIONARIOS = @"SELECT FuncionarioID, Nome, CPF, Email, Salario 
                                                                 FROM tblFuncionarios";
 
         public readonly static string SELECTFUNCIONARIOSPOREMAIL = @"SELECT * FROM tblFuncionarios 
@@ -15,6 +17,11 @@
 
         public readonly static string DELETEFUNCIONARIO = @"DELETE FROM tblFuncionarios 
                                                             WHERE FuncionarioID = @FuncionarioID";
+
+
+        public readonly static string SELECTFUNCIONARIOPORID = @"SELECT FuncionarioID, Nome, CPF, Email, Salario 
+                                                                   FROM tblFuncionarios
+                                                                    WHERE FuncionarioID = @FuncionarioID";
 
 
         public int FuncionarioID { get; private set; }
@@ -36,6 +43,16 @@
             Salario = salario;
         }
 
+        // Uso pra exibição
+        public Funcionario(int funcionarioId, string nome, string cpf, string email, decimal? salario)
+        {
+            FuncionarioID = funcionarioId;
+            Nome = nome;
+            CPF = cpf;
+            Email = email;
+            Salario = salario;
+        }
+
         public void setFuncionarioID(int funcionarioId)
         {
             FuncionarioID = funcionarioId;
@@ -49,7 +66,7 @@
 
         public override string? ToString()
         {
-            return $"Nome: {Nome}  |  CPF: {CPF}\n" +
+            return $"FuncionarioID: {FuncionarioID}  |  Nome: {Nome}  |  CPF: {CPF}\n" +
                 $"Email: {Email}  |  Salário: {(Salario == null ? "Sem sálario" : Salario)}\n" +
                 $"------------------------------------------------------";
         }

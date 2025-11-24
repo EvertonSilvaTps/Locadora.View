@@ -6,7 +6,6 @@ namespace Locadora.Controller.Interfaces
     {
         public void AdicionarLocacao(Locacao locacao);
 
-
         public void AtualizarStatusLocacao(Guid id, string status);
 
         public Locacao? BuscarLocacaoPorId(Guid id);

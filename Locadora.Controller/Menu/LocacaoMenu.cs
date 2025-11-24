@@ -1,4 +1,5 @@
-﻿using Locadora.Controller.Validation;
+﻿using Locadora.Controller.Interfaces;
+using Locadora.Controller.Validation;
 using Locadora.Models;
 using Locadora.Models.Enums;
 
@@ -42,8 +43,55 @@ namespace Locadora.Controller.Menu
             {
                 Console.WriteLine(ex.Message);
             }
-        }
 
+            // Selecionar funcionarios
+            Console.WriteLine("\n     =-=-= Seleção de Funcionários =-=-=\n");
+
+            FuncionarioController funcionarioController = new FuncionarioController();
+            LocacaoFuncionarioController locacaoFuncionariosController = new LocacaoFuncionarioController();
+
+            var funcionarios = funcionarioController.ListarTodosFuncionarios();
+
+            foreach (var f in funcionarios)
+                Console.WriteLine($"{f.FuncionarioID} - {f.Nome}");
+
+            List<int> funcionariosEscolhidos = new();
+
+            while (true)
+            {
+                int cont = 1;
+
+                int? funcId = Validar.ValidarInputIntFun("\nDigite o ID do funcionário que prestou o serviço de locação (S para finalizar): ");
+
+                if (funcId == null) break;
+
+                if (!funcionarios.Exists(f => f.FuncionarioID == funcId))
+                {
+                    Console.WriteLine("\n  Funcionário não encontrado!");
+                    continue;
+                }
+
+                try
+                {
+                    locacaoFuncionariosController.AssociarFuncionario(locacao.LocacaoID, funcId.Value);
+                    funcionariosEscolhidos.Add(funcId.Value);
+                    Console.WriteLine($"Funcionário {funcId} associado!");
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("Erro ao associar funcionário: " + ex.Message);
+                }
+                
+                if (funcionariosEscolhidos.Count == 0)
+                {
+                    Console.WriteLine("\nÉ obrigatório selecionar ao menos 1 funcionário!");
+                    continue;
+                }
+            }
+
+
+            Console.WriteLine("\n   >>>   Funcionário associado a locação com sucesso!");
+        }
 
         private void SelectAllService()
         {
@@ -91,6 +139,45 @@ namespace Locadora.Controller.Menu
             try
             {
                 var list = Controller.ListarLocacaoPorCliente(idCliente);
+
+                foreach (var rental in list)
+                {
+                    Console.WriteLine(rental);
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+        }
+
+
+        private void SelectEmployeerService()
+        {
+            Console.Clear();
+            Console.WriteLine();
+
+            string? email = Validar.ValidarInputString("Informe o email do funcionario para busca: ");
+            if (email == null) return;
+
+            var funcionarioController = new FuncionarioController();
+
+            var employeer = funcionarioController.BuscarFuncionarioEmail(email);
+            if (employeer is null)
+            {
+                Console.WriteLine("\nNão existe funcionario com esse email cadastrado!");
+                return;
+            }
+
+            Console.WriteLine("\n                   =-=-=   >  Funcionario  <   =-=-=\n");
+            Console.WriteLine(employeer + "\n");
+
+            var idFuncionario = employeer.FuncionarioID;
+            LocacaoFuncionarioController controllerFun = new LocacaoFuncionarioController();
+
+            try
+            {
+                var list = controllerFun.ListarLocacaoPorFuncionario(idFuncionario);
 
                 foreach (var rental in list)
                 {
@@ -191,13 +278,14 @@ namespace Locadora.Controller.Menu
             do
             {
                 Console.Clear();
-                Console.WriteLine(" |-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-|");
-                Console.WriteLine(" |                   >      Locação      <                 |");
-                Console.WriteLine(" |---------------------------------------------------------|");
-                Console.WriteLine(" | [ 1 ] Registrar Locação   |   [ 2 ] Exibir Locações     |");
-                Console.WriteLine(" | [ 3 ] Atualizar Status    |   [ 4 ] Exibir Por Cliente  |");
-                Console.WriteLine(" | [ 5 ] Exibir Por Status   |   [ 6 ] Voltar              |");
-                Console.WriteLine(" |-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-|");
+                Console.WriteLine(" |-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-|");
+                Console.WriteLine(" |                     >      Locação      <                   |");
+                Console.WriteLine(" |-------------------------------------------------------------|");
+                Console.WriteLine(" | [ 1 ] Registrar Locação   |   [ 2 ] Exibir Locações         |");
+                Console.WriteLine(" | [ 3 ] Atualizar Status    |   [ 4 ] Exibir Por Cliente      |");
+                Console.WriteLine(" | [ 5 ] Exibir Por Status   |   [ 6 ] Exibir Por Funcionario  |");
+                Console.WriteLine(" | [ 7 ] Voltar              |                                 |");
+                Console.WriteLine(" |-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-|");
                 Console.WriteLine();
                 Console.Write("  >>> Informe o menu desejado: ");
                 string entrada = Console.ReadLine()!;
@@ -222,6 +310,9 @@ namespace Locadora.Controller.Menu
                         SelectStatusService();
                         break;
                     case 6:
+                        SelectEmployeerService();
+                        break;
+                    case 7:
                         return;
                     default:
                         Console.WriteLine("\nOpção Inválida. Tente novamente.");
