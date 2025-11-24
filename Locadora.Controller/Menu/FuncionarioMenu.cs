@@ -7,6 +7,7 @@ namespace Locadora.Controller.Menu
     {
         private FuncionarioController Controller = new FuncionarioController();
 
+
         private void InsertService()
         {
             string? name = Validar.ValidarInputString("Nome: ");
@@ -173,8 +174,6 @@ namespace Locadora.Controller.Menu
 
             } while (true);
         }
-
-
 
 
     }

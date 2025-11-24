@@ -8,6 +8,7 @@ namespace Locadora.Controller.Menu
     {
         private LocacaoController Controller = new LocacaoController();
 
+
         private void InsertService()
         {
             string? email = Validar.ValidarInputString("Cliente > Informe o email: ");
@@ -23,7 +24,7 @@ namespace Locadora.Controller.Menu
             if (vehicle == null)
             {
                 Console.WriteLine("Retornando para o menu...");
-                Thread.Sleep(3000);
+                Thread.Sleep(5000);
                 return;
             }
 
@@ -82,7 +83,7 @@ namespace Locadora.Controller.Menu
                 return;
             }
 
-            Console.WriteLine("\n\n               =-=-=   >  Cliente  <   =-=-=\n");
+            Console.WriteLine("\n                   =-=-=   >  Cliente  <   =-=-=\n");
             Console.WriteLine(customer + "\n");
 
             var idCliente = customer.ClienteID;
@@ -103,32 +104,29 @@ namespace Locadora.Controller.Menu
         }
 
 
-
-        private void SelectEmployeerService()
+        private void SelectStatusService()
         {
             Console.Clear();
             Console.WriteLine();
 
-            string? email = Validar.ValidarInputString("Informe o email do funcionario para busca: ");
-            if (email == null) return;
+            Console.WriteLine("  >  [1] Ativa | [2] Finalizada | [3] Cancelada  <");
+            int? rentalStatus = Validar.ValidarInputInt("\n Informe o Status desejado: ");
+            if (rentalStatus == null || (rentalStatus is not 1 && rentalStatus is not 2 && rentalStatus is not 3)) return;
 
-            var funcionarioController = new FuncionarioController();
+            string status;
 
-            var employeer = funcionarioController.BuscarFuncionarioEmail(email);
-            if (employeer is null)
-            {
-                Console.WriteLine("\nNão existe funcionario com esse email cadastrado!");
-                return;
-            }
+            if (rentalStatus == 1)
+                status = EStatusLocacao.Ativa.ToString();
+            else if (rentalStatus == 2)
+                status = EStatusLocacao.Finalizada.ToString();
+            else
+                status = EStatusLocacao.Cancelada.ToString();
 
-            Console.WriteLine("\n        =-=-=   >  Funcionario  <   =-=-=\n");
-            Console.WriteLine(employeer + "\n");
-
-            var idFuncionario = employeer.FuncionarioID;
+            Console.WriteLine("\n                                   =-=-=   >  Locaçãoes  <   =-=-=\n");
 
             try
             {
-                var list = Controller.ListarLocacaoPorFuncionario(idFuncionario);
+                var list = Controller.ListarLocacaoPorStatus(status);
 
                 foreach (var rental in list)
                 {
@@ -142,12 +140,13 @@ namespace Locadora.Controller.Menu
         }
 
 
-
         private void UpdateStatusService()
         {
-            var guid = Validar.ValidarInputGuid("ID da locação: ");
-            if (guid == null) return;
+            var input = Validar.ValidarInputString("ID da locação: ");
+            if (input == null) return;
 
+            var guid = Validar.ValidarInputGuid(input);
+            if (guid == null) return;
 
             try
             {
@@ -155,6 +154,14 @@ namespace Locadora.Controller.Menu
                 if (rental is null)
                 {
                     Console.WriteLine("\nNão existe locação com esse ID!");
+                    return;
+                }
+
+                bool statusBloqueado = rental.Status == EStatusLocacao.Ativa.ToString();
+
+                if (!statusBloqueado)
+                {
+                    Console.WriteLine("\nUpdate inválido! Locações já finalizadas ou canceladas não podem ser alteradas");
                     return;
                 }
 
@@ -178,21 +185,19 @@ namespace Locadora.Controller.Menu
         }
 
 
-
-
         public void MenuLocacao()
         {
             int opcao = 0;
             do
             {
                 Console.Clear();
-                Console.WriteLine(" |-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=|");
-                Console.WriteLine(" |                      >      Locação      <                   |");
-                Console.WriteLine(" |--------------------------------------------------------------|");
-                Console.WriteLine(" | [ 1 ] Registrar Locação        |   [ 2 ] Exibir Locações     |");
-                Console.WriteLine(" | [ 3 ] Atualizar Status         |   [ 4 ] Exibir Por Cliente  |");
-                Console.WriteLine(" | [ 5 ] Exibir Por Funcionario   |   [ 6 ] Voltar              |");
-                Console.WriteLine(" |-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=|");
+                Console.WriteLine(" |-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-|");
+                Console.WriteLine(" |                   >      Locação      <                 |");
+                Console.WriteLine(" |---------------------------------------------------------|");
+                Console.WriteLine(" | [ 1 ] Registrar Locação   |   [ 2 ] Exibir Locações     |");
+                Console.WriteLine(" | [ 3 ] Atualizar Status    |   [ 4 ] Exibir Por Cliente  |");
+                Console.WriteLine(" | [ 5 ] Exibir Por Status   |   [ 6 ] Voltar              |");
+                Console.WriteLine(" |-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-|");
                 Console.WriteLine();
                 Console.Write("  >>> Informe o menu desejado: ");
                 string entrada = Console.ReadLine()!;
@@ -214,7 +219,7 @@ namespace Locadora.Controller.Menu
                         SelectCustomerService();
                         break;
                     case 5:
-                        SelectEmployeerService();
+                        SelectStatusService();
                         break;
                     case 6:
                         return;

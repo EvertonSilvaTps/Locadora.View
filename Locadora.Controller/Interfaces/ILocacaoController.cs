@@ -15,7 +15,7 @@ namespace Locadora.Controller.Interfaces
 
         public List<Locacao> ListarLocacaoPorCliente(int clienteId);
 
-        public List<Locacao> ListarLocacaoPorFuncionario(int funcionarioID)
+        public List<Locacao> ListarLocacaoPorStatus(string status);
 
     }
 }

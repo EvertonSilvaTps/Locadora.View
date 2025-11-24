@@ -20,6 +20,7 @@ namespace Locadora.Controller.Validation
             return input;
         }
 
+
         public static string? ValidarInputOpcional(string text)
         {
             Console.Write(text);
@@ -30,6 +31,7 @@ namespace Locadora.Controller.Validation
 
             return input;
         }
+
 
         public static decimal ValidarInputDecimal(string text)
         {
@@ -94,6 +96,7 @@ namespace Locadora.Controller.Validation
             }
             return result;
         }
+
 
         public static DateOnly ValidarInputDateOnly(string text)
         {
@@ -171,8 +174,6 @@ namespace Locadora.Controller.Validation
 
             return guid;
         }
-
-
 
     }
 }

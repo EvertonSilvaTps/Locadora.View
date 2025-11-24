@@ -1,147 +1,5 @@
-﻿using Locadora.Controller;
-using Locadora.Controller.Crud;
+﻿using Locadora.Controller.Crud;
 using Locadora.Controller.Menu;
-
-
-//Funcionario func = new Funcionario("Bruce Wanny", "285646688", "batman@uol.com");
-
-
-//var funcController = new FuncionarioController();
-
-
-#region INSERT Funcionario
-//try
-//{
-//    funcController.AdicionarFuncionario(func);
-//}
-//catch (Exception ex)
-//{
-//    Console.WriteLine(ex.Message);
-//}
-#endregion
-
-
-
-#region SELECT ALL Funcionarios
-//try
-//{
-//    var lista = funcController.ListarTodosFuncionarios();
-
-//    foreach (var f in lista)
-//    {
-//        Console.WriteLine(f);
-//    }
-//}
-//catch (Exception ex)
-//{
-//    Console.WriteLine(ex.Message);
-//}
-#endregion
-
-
-#region UPDATE and Busca de Salario
-//try
-//{
-//    funcController.AtualizarSalarioFuncionario("batman@uol.com", 1300.90m);
-//    Console.WriteLine(funcController.BuscarFuncionarioEmail("batman@uol.com"));
-//}
-//catch (Exception ex)
-//{
-//    Console.WriteLine(ex.Message);
-//}
-#endregion
-
-
-#region DELETE Funcionario
-//try
-//{
-//    funcController.DeletarFuncionario("batman@uol.com");
-//    Console.WriteLine("Funcionario deletado com sucesso!");
-//}
-//catch (Exception ex)
-//{
-//    Console.WriteLine(ex.Message);
-//}
-#endregion
-
-
-
-//   ----------------                      <<<   Locação   >>>                      ----------------                      
-
-
-//var locacaoController = new LocacaoController();
-
-
-#region INSERT Veiculo
-//try
-//{
-//    var veiculo = new Veiculo(1, "XYZ-9876", "Chevrolet", "S10", 2025, EStatusVeiculo.Disponivel.ToString());
-//    veiculoController.AdicionarVeiculo(veiculo);
-//}
-//catch (Exception ex)
-//{
-//    Console.WriteLine("Erro ao criar veículo: " + ex.Message);
-//}
-#endregion
-
-
-#region SELECT ALL Veiculos
-//try
-//{
-//    var veiculos = veiculoController.ListarTodosVeiculos();
-
-//    foreach (var item in veiculos)
-//    {
-//        Console.WriteLine(item);
-//    }
-//}
-//catch (Exception ex)
-//{
-//    Console.WriteLine(ex.Message);
-//}
-#endregion
-
-
-#region SELECT BY PLACA
-//try
-//{
-//    Console.WriteLine(veiculoController.BuscarVeiculoPlaca("MNO7890"));
-//}
-//catch (Exception ex)
-//{
-//    Console.WriteLine(ex.Message);
-//}
-#endregion
-
-
-#region DELETE Veiculo
-//try
-//{
-//    var veiculo = veiculoController.BuscarVeiculoPlaca("XYZ-9876");
-
-//    veiculoController.DeletarVeiculo(veiculo.VeiculoID);
-//    Console.WriteLine("Veiculo deletado com sucesso!");
-//}
-//catch (Exception ex)
-//{
-//    Console.WriteLine(ex.Message);
-//}
-#endregion
-
-
-#region UPDATE Status Veículo
-//try
-//{
-//    veiculoController.AtualizarStatusVeiculo(EStatusVeiculo.Manutencao.ToString(), "MNO7890");
-//    Console.WriteLine(veiculoController.BuscarVeiculoPlaca("MNO7890"));
-//}
-//catch (Exception ex)
-//{
-//    Console.WriteLine(ex.Message);
-//}
-#endregion
-
-
 
 
 var customer = new ClienteMenu();
@@ -157,10 +15,9 @@ do
     Console.WriteLine(" |-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=|");
     Console.WriteLine(" |       >    Sistema Locadora de Veículos    <       |");
     Console.WriteLine(" |----------------------------------------------------|");
-    Console.WriteLine(" | [ 1 ] Menu Locação       |   [ 2 ] Menu Exibir     |");
-    Console.WriteLine(" | [ 3 ] Menu Veículo       |   [ 4 ] Menu Categoria  |");
-    Console.WriteLine(" | [ 5 ] Menu Funcionario   |   [ 6 ] Menu Cliente    |");
-    Console.WriteLine(" | [ 7 ] Sair               |                         |");
+    Console.WriteLine(" | [ 1 ] Menu Locação       |   [ 2 ] Menu Veículo    |");
+    Console.WriteLine(" | [ 3 ] Menu Funcionario   |   [ 4 ] Menu Categoria  |");
+    Console.WriteLine(" | [ 5 ] Menu Cliente       |   [ 6 ] Sair            |");
     Console.WriteLine(" |-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=|");
     Console.WriteLine();
     Console.Write("  >>> Informe o menu desejado: ");
@@ -174,22 +31,20 @@ do
             rental.MenuLocacao();
             break;
         case 2:
-            //
+            vehicle.MenuVeiculo();
             break;
         case 3:
-            vehicle.MenuVeiculo();
+            employeer.MenuFuncionario();
             break;
         case 4:
             category.MenuCategoria();
             break;
         case 5:
-            employeer.MenuFuncionario();
-            break;
-        case 6:
             customer.MenuCliente();
             break;
-        case 7:
+        case 6:
             Console.WriteLine("Encerrando o programa...");
+            Thread.Sleep(4000);
             return;
         default:
             Console.WriteLine("\nOpção Inválida. Tente novamente.");

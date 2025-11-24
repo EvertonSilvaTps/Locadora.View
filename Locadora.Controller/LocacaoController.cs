@@ -57,7 +57,7 @@ namespace Locadora.Controller
                         command.Parameters.AddWithValue("@ValorDiaria", locacao.Veiculo.Categoria.Diaria);
                         command.Parameters.AddWithValue("@ValorTotal", locacao.ValorTotal);
                         command.Parameters.AddWithValue("@Multa", locacao.Multa);
-                        command.Parameters.AddWithValue("@Status", locacao.Status.ToString());
+                        command.Parameters.AddWithValue("@Status", EStatusLocacao.Ativa.ToString());
 
                         command.ExecuteNonQuery();
                     }
@@ -112,12 +112,55 @@ namespace Locadora.Controller
                         command.ExecuteNonQuery();
                     }
 
-                    // Se finalizada, atualiza DataDevolucaoReal e status do veículo
+                    // Se "Finalizada":  atualiza DataDevolucaoReal, status do veículo e valor total
                     if (status == EStatusLocacao.Finalizada.ToString())
                     {
+                        // Atualiza DataDevolucaoReal para Data Atual'
                         using (var commandDate = new SqlCommand(Locacao.UPDATELOCACAODEVOLUCAOREAL, connection, transaction))
                         {
                             commandDate.Parameters.AddWithValue("@DataDevolucaoReal", DateTime.Now);
+                            commandDate.Parameters.AddWithValue("@LocacaoID", id);
+
+                            commandDate.ExecuteNonQuery();
+                        }
+
+                        // Atualiza Valor Total
+                        using (var commandValor = new SqlCommand(Locacao.UPDATELOCACAOVALORTOTAL, connection, transaction))
+                        {
+                            var dias = (DateTime.Now.Date - locacaoEncontrada.DataLocacao.Date).Days;
+                            var diaria = locacaoEncontrada.Veiculo.Categoria.Diaria;
+
+                            if (dias == 0) dias = 1;
+
+                            decimal valorTotal = dias * diaria;
+
+                            int diasAtraso = (DateTime.Now.Date - locacaoEncontrada.DataDevolucaoPrevista.Date).Days;
+
+                            if (diasAtraso > 0) valorTotal += 60;
+
+                            commandValor.Parameters.AddWithValue("@ValorTotal", valorTotal);
+                            commandValor.Parameters.AddWithValue("@LocacaoID", id);
+
+                            commandValor.ExecuteNonQuery();
+                        }
+
+                        // Atualiza status do veículo para 'Disponível'
+                        using (var commandVeiculo = new SqlCommand(Veiculo.UPDATESTATUSVEICULO, connection, transaction))
+                        {
+                            commandVeiculo.Parameters.AddWithValue("@StatusVeiculo", EStatusVeiculo.Disponível.ToString());
+                            commandVeiculo.Parameters.AddWithValue("@VeiculoID", locacaoEncontrada.Veiculo.VeiculoID);
+
+                            commandVeiculo.ExecuteNonQuery();
+                        }
+                    }
+
+                    // Se "Cancelado":  atualiza status do veículo e valor total
+                    if (status == EStatusLocacao.Cancelada.ToString())
+                    {
+                        // Atualiza Valor Total
+                        using (var commandDate = new SqlCommand(Locacao.UPDATELOCACAOVALORTOTAL, connection, transaction))
+                        {
+                            commandDate.Parameters.AddWithValue("@ValorTotal", 0);
                             commandDate.Parameters.AddWithValue("@LocacaoID", id);
 
                             commandDate.ExecuteNonQuery();
@@ -132,6 +175,10 @@ namespace Locadora.Controller
                             commandVeiculo.ExecuteNonQuery();
                         }
                     }
+
+
+
+
 
                     transaction.Commit();
                 }
@@ -199,7 +246,6 @@ namespace Locadora.Controller
         }
 
 
-
         public List<Locacao> ListarTodasLocacoes()
         {
             var connection = new SqlConnection(ConnectionDB.GetConnectionString());
@@ -217,7 +263,7 @@ namespace Locadora.Controller
 
                 using (SqlDataReader reader = command.ExecuteReader())
                 {
-
+                    Console.WriteLine("                                   =-=-=   >  Locaçãoes  <   =-=-=\n");
                     while (reader.Read())
                     {
                         var cliente = clienteController.BuscaClientePorId(reader.GetInt32(1));
@@ -253,11 +299,14 @@ namespace Locadora.Controller
 
         public List<Locacao> ListarLocacaoPorCliente(int clienteId)
         {
-            var locacoes = new List<Locacao>();
+            var clienteController = new ClienteController();
+            var veiculoController = new VeiculoController();
 
             using (var connection = new SqlConnection(ConnectionDB.GetConnectionString()))
             {
                 connection.Open();
+                
+                var locacoes = new List<Locacao>();
 
                 SqlCommand command = new SqlCommand(Locacao.SELECTLOCACAOPORCLIENTE, connection);
                 command.Parameters.AddWithValue("@ClienteID", clienteId);
@@ -266,16 +315,23 @@ namespace Locadora.Controller
                 {
                     try
                     {
+                        Console.WriteLine("                   =-=-=   >  Locaçãoes  <   =-=-=\n");
                         while (reader.Read())
                         {
-                            var locacao = new Locacao(
-                                    Convert.ToInt32(reader["ClienteID"]),
-                                    Convert.ToInt32(reader["VeiculoID"]),
-                                    Convert.ToDateTime(reader["DataLocacao"]),
-                                    Convert.ToDateTime(reader["DataDevolucaoPrevista"]),
-                                    Convert.ToDecimal(reader["ValorDiaria"]),
-                                    reader["Status"].ToString()
-                                    );
+                            var cliente = clienteController.BuscaClientePorId(reader.GetInt32(1));
+                            var veiculo = veiculoController.BuscarVeiculoId(reader.GetInt32(2));
+
+                            var locacao = new Locacao(reader.GetGuid(0),
+                                                    cliente,
+                                                    veiculo,
+                                                    reader.GetDateTime(3),
+                                                    reader.GetDateTime(4),
+                                                    reader.IsDBNull(5) ? (DateTime?)null : reader.GetDateTime(5),
+                                                    reader.GetDecimal(6),
+                                                    reader.GetDecimal(7),
+                                                    reader.GetDecimal(8),
+                                                    reader.GetString(9)
+                                                    );
 
                             locacoes.Add(locacao);
                         }
@@ -298,16 +354,20 @@ namespace Locadora.Controller
             }
         }
 
-        public List<Locacao> ListarLocacaoPorFuncionario(int funcionarioID)
+
+        public List<Locacao> ListarLocacaoPorStatus(string status)
         {
-            var locacoes = new List<Locacao>();
+            var clienteController = new ClienteController();
+            var veiculoController = new VeiculoController();
 
             using (var connection = new SqlConnection(ConnectionDB.GetConnectionString()))
             {
                 connection.Open();
+                
+                var locacoes = new List<Locacao>();
 
-                SqlCommand command = new SqlCommand(Locacao.SELECTLOCACAOPORFUNCIONARIO, connection);
-                command.Parameters.AddWithValue("@FuncionarioID", funcionarioID);
+                SqlCommand command = new SqlCommand(Locacao.SELECTLOCACAOPORSTATUS, connection);
+                command.Parameters.AddWithValue("@Status", status);
 
                 using (SqlDataReader reader = command.ExecuteReader())
                 {
@@ -315,14 +375,20 @@ namespace Locadora.Controller
                     {
                         while (reader.Read())
                         {
-                            var locacao = new Locacao(
-                                    Convert.ToInt32(reader["ClienteID"]),
-                                    Convert.ToInt32(reader["VeiculoID"]),
-                                    Convert.ToDateTime(reader["DataLocacao"]),
-                                    Convert.ToDateTime(reader["DataDevolucaoPrevista"]),
-                                    Convert.ToDecimal(reader["ValorDiaria"]),
-                                    reader["Status"].ToString()
-                                    );
+                            var cliente = clienteController.BuscaClientePorId(reader.GetInt32(1));
+                            var veiculo = veiculoController.BuscarVeiculoId(reader.GetInt32(2));
+
+                            var locacao = new Locacao(reader.GetGuid(0),
+                                                    cliente,
+                                                    veiculo,
+                                                    reader.GetDateTime(3),
+                                                    reader.GetDateTime(4),
+                                                    reader.IsDBNull(5) ? (DateTime?)null : reader.GetDateTime(5),
+                                                    reader.GetDecimal(6),
+                                                    reader.GetDecimal(7),
+                                                    reader.GetDecimal(8),
+                                                    reader.GetString(9)
+                                                    );
 
                             locacoes.Add(locacao);
                         }

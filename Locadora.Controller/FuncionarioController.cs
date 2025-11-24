@@ -45,6 +45,7 @@ namespace Locadora.Controller
             }
         }
 
+
         public List<Funcionario> ListarTodosFuncionarios()
         {
             var connection = new SqlConnection(ConnectionDB.GetConnectionString());
@@ -85,6 +86,7 @@ namespace Locadora.Controller
                 connection.Close();
             }
         }
+
 
         public Funcionario BuscarFuncionarioEmail(string email)
         {
@@ -128,6 +130,7 @@ namespace Locadora.Controller
             }
         }
 
+
         public void AtualizarSalarioFuncionario(string email, decimal salario)
         {
             var funcionarioBuscado = this.BuscarFuncionarioEmail(email);
@@ -169,6 +172,7 @@ namespace Locadora.Controller
             }
         }
 
+
         public void DeletarFuncionario(string email)
         {
             var funcionarioBuscado = this.BuscarFuncionarioEmail(email);
@@ -204,5 +208,7 @@ namespace Locadora.Controller
                 }
             }
         }
+
+
     }
 }

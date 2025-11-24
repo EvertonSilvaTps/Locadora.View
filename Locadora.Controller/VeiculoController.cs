@@ -48,6 +48,7 @@ namespace Locadora.Controller
 
         }
 
+
         public List<Veiculo> ListarTodosVeiculos()
         {
             var veiculos = new List<Veiculo>();
@@ -93,6 +94,7 @@ namespace Locadora.Controller
                 return veiculos;
             }
         }
+
 
         public Veiculo? BuscarVeiculoPlaca(string placa)
         {

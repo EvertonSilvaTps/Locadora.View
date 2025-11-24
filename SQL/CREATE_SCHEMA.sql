@@ -59,7 +59,7 @@ CREATE TABLE tblFuncionarios (
 
 -- 6. Tabela tblLocacoes (Relacionamento 1:N com tblClientes e tblVeiculos, e N:M com tblFuncionarios)
 CREATE TABLE tblLocacoes (
-    LocacaoID INT PRIMARY KEY IDENTITY(1,1),
+    LocacaoID uniqueidentifier PRIMARY KEY DEFAULT NEWSEQUENTIALID(),
     ClienteID INT NOT NULL,
     VeiculoID INT NOT NULL,
     DataLocacao DATETIME NOT NULL DEFAULT GETDATE(),
@@ -76,7 +76,7 @@ CREATE TABLE tblLocacoes (
 -- 7. Tabela tblLocacaoFuncionarios (Tabela de Junção para o relacionamento N:M entre tblLocacoes e tblFuncionarios)
 CREATE TABLE tblLocacaoFuncionarios (
     LocacaoFuncionarioID INT PRIMARY KEY IDENTITY(1,1),
-    LocacaoID INT NOT NULL,
+    LocacaoID UNIQUEIDENTIFIER NOT NULL,
     FuncionarioID INT NOT NULL,
     CONSTRAINT FK_LocFunc_Locacoes FOREIGN KEY (LocacaoID) REFERENCES tblLocacoes(LocacaoID) ON DELETE CASCADE,
     CONSTRAINT FK_LocFunc_Funcionarios FOREIGN KEY (FuncionarioID) REFERENCES tblFuncionarios(FuncionarioID),
@@ -133,9 +133,9 @@ INSERT INTO tblLocacoes (ClienteID, VeiculoID, DataLocacao, DataDevolucaoPrevist
 -- LocaçãoFuncionarios (N:M)
 -- Ana e Pedro envolvidos na Locação 1
 INSERT INTO tblLocacaoFuncionarios (LocacaoID, FuncionarioID) VALUES
-(1, 1),
-(1, 2);
+('03B4433E-F36B-1410-806B-00FE1FE9B074', 1),
+('03B4433E-F36B-1410-806B-00FE1FE9B074', 2);
 
 -- Pedro envolvido na Locação 2
 INSERT INTO tblLocacaoFuncionarios (LocacaoID, FuncionarioID) VALUES
-(2, 2);
+('08B4433E-F36B-1410-806B-00FE1FE9B074', 2);
